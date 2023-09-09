@@ -28,5 +28,5 @@ export const errorHandler = (err, req, res, next) => {
         ...(process.env.NODE_ENV === 'development' && { stack: err.stack }),
     }
 
-    res.status(500).send(response)
+    res.status(statusCode).send(response)
 }

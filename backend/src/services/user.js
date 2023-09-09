@@ -26,7 +26,7 @@ export default {
     createUser: async (displayname, email, password) => {
         const existingUser = await User.findOne({ where: { email } })
         if (existingUser)
-            throw new ApiError(httpStatus.BAD_REQUEST, 'Email already in use')
+            throw new ApiError(httpStatus.BAD_REQUEST, 'Email already taken')
 
         const encrypted = await bcrypt.hash(password, 12)
         return await User.create({ displayname, email, password: encrypted })

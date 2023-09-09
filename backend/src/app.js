@@ -1,15 +1,19 @@
 import express from 'express'
+import cors from 'cors'
 import { errorConverter, errorHandler } from './middleware/errors.js'
+import docsRouter from './routes/docs.js'
 import usersRoute from './routes/user.js'
 
 const app = express()
 
+app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 if (process.env.NODE_ENV == 'development') {
     app.get('/', (req, res) => res.json({message: 'hello world'}))
     app.get('/error', (req, res) => {throw new Error('this is an error')})
+    app.use('/docs', docsRouter)
 }
 
 app.use('/users', usersRoute)
