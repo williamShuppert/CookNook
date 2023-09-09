@@ -1,4 +1,6 @@
 import express from 'express'
+import helmet from 'helmet'
+import xss from 'xss-clean'
 import cors from 'cors'
 import { errorConverter, errorHandler } from './middleware/errors.js'
 import docsRouter from './routes/docs.js'
@@ -6,6 +8,8 @@ import usersRoute from './routes/user.js'
 
 const app = express()
 
+app.use(helmet())
+app.use(xss())
 app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
