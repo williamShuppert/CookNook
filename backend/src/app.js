@@ -1,6 +1,6 @@
 import express from 'express'
 import { errorConverter, errorHandler } from './middleware/errors.js'
-import usersRoute from './routes/users.js'
+import usersRoute from './routes/user.js'
 
 const app = express()
 
