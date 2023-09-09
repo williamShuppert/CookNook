@@ -14,8 +14,8 @@ export default {
     }),
 
     createUser: catchAsync(async (req, res) => {
-        const { displayname, email, password } = req.body
-        const user = await UserService.createUser(displayname, email, password)
+        const { displayname, username, email, password } = req.body
+        const user = await UserService.createUser(email, username, displayname, password)
         const sanitized = {
             id: user.id,
             displayname: user.displayname
