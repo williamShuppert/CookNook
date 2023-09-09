@@ -1,4 +1,5 @@
 import { ApiError } from "../utils/api-error.js"
+import httpStatus from "http-status"
 
 export const errorConverter = (err, req, res, next) => {
     let error = err
@@ -13,7 +14,7 @@ export const errorConverter = (err, req, res, next) => {
 export const errorHandler = (err, req, res, next) => {
     let { statusCode, message } = err
 
-    if (config.env === 'production' && !err.isOperational) {
+    if (process.env.NODE_ENV === 'production' && !err.isOperational) {
         statusCode = httpStatus.INTERNAL_SERVER_ERROR;
         message = httpStatus[httpStatus.INTERNAL_SERVER_ERROR];
     }
