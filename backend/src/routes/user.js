@@ -1,13 +1,15 @@
 import { Router } from "express"
-import User from '../controllers/user.js'
+import UserController from '../controllers/user.js'
+import UserValidation from "../validation/user.js"
+import { validate } from "../middleware/validate.js"
 
 const router = Router()
 
 router.route('/')
-    .post(User.createUser)
+    .post(validate(UserValidation.createUser), UserController.createUser)
 
 router.route('/:userId')
-    .get(User.getUser)
+    .get(validate(UserValidation.getUser), UserController.getUser)
 
 export default router
 
