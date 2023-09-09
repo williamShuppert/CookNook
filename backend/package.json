@@ -5,8 +5,9 @@
   "main": "./src/index.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon ./src/index.js",
-    "start": "node ./src/index.js"
+    "test": "cross-env NODE_ENV=testing node ./tests",
+    "dev": "cross-env NODE_ENV=development nodemon ./src/index.js",
+    "prod": "cross-env NODE_ENV=production node ./src/index.js"
   },
   "author": "Will Shuppert",
   "license": "ISC",
@@ -17,6 +18,7 @@
   "dependencies": {
     "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "helmet": "^7.0.0",
@@ -27,6 +29,8 @@
     "xss-clean": "^0.1.4"
   },
   "devDependencies": {
+    "faker": "^5.5.3",
+    "supertest": "^6.3.3",
     "nodemon": "^3.0.1",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.0"
