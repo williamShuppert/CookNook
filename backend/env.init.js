@@ -12,6 +12,8 @@ const envVarsSchema = Joi.object().keys({
     DB_NAME: Joi.string().required(),
     DB_USERNAME: Joi.string().required(),
     DB_PASSWORD: Joi.string().required(),
+    ACCESS_JWT_SECRET: Joi.string().min(64).required(),
+    REFRESH_JWT_SECRET: Joi.string().min(64).required(),
 }).unknown()
 
 const { error } = envVarsSchema.prefs({ errors: { label: 'key' } }).validate(process.env)

@@ -4,29 +4,25 @@ const {DataTypes} = require('sequelize')
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    return queryInterface.createTable('Users', {
-      id: {
-        primaryKey: true,
+    return queryInterface.createTable('oauth', {
+      userId: {
         type: DataTypes.UUID,
-        defaultValue: Sequelize.literal('(UUID())')
-      },
-      email: {
-        type: DataTypes.STRING,
         allowNull: false,
-        unique: true
+        unique: 'compositeIndex',
+        references: {
+            model: 'users',
+            key: 'id'
+        }
       },
-      username: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        unique: true,
-        collate: 'utf8_general_ci'
+      provider: {
+          type: DataTypes.STRING,
+          unique: 'compositeIndex',
+          allowNull: false
       },
-      displayname: {
-        type: DataTypes.STRING(50),
-        allowNull: false
-      },
-      password: {
-        type: DataTypes.STRING
+      id: {
+          type: DataTypes.STRING,
+          allowNull: false,
+          primaryKey: true
       },
       createdAt: {
         allowNull: false,
@@ -37,11 +33,11 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE,
         defaultValue: Sequelize.fn('now')
-      },
+      }
     })
   },
 
   async down (queryInterface, Sequelize) {
-    return queryInterface.dropTable('Users')
+    return queryInterface.dropTable('oauth')
   }
 };
