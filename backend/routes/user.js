@@ -1,5 +1,5 @@
 import { Router } from "express"
-import UserController from '../controllers/user.js'
+import UserController from '../controllers/user.controller.js'
 import UserValidation from "../validation/user.js"
 import { validate } from "../middleware/validate.js"
 
@@ -76,7 +76,7 @@ export default router
  * /users/{id}:
  *   get:
  *     summary: Get a user
- *     description: Logged in users can fetch only their own user information. Only admins can fetch other users.
+ *     description: 
  *     tags: [Users]
  *     security:
  *       - bearerAuth: []

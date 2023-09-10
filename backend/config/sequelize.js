@@ -12,7 +12,8 @@ const sequelize = new Sequelize(
             min: 0,
             acquire: 30000,
             idle: 10000
-        }
+        },
+        logging: process.env.NODE_ENV === 'dev' ? console.log : false
     }
 )
 

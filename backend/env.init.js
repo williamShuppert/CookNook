@@ -2,12 +2,12 @@ import dotenv from 'dotenv'
 import Joi from 'joi'
 
 if (!process.env.NODE_ENV)
-    process.env.NODE_ENV = 'development'
+    process.env.NODE_ENV = 'dev'
 
 dotenv.config({ path: `.env.${process.env.NODE_ENV}` })
 
 const envVarsSchema = Joi.object().keys({
-    NODE_ENV: Joi.string().valid('production', 'development', 'testing').required(),
+    NODE_ENV: Joi.string().valid('prod', 'dev', 'test').required(),
     PORT: Joi.number().default(3000),
     DB_NAME: Joi.string().required(),
     DB_USERNAME: Joi.string().required(),

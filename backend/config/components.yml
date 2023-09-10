@@ -10,10 +10,13 @@ components:
           format: email
         displayname:
           type: string
+        username:
+          type: string
       example:
         id: 51dfc57e-005e-454e-a6ed-2a57c18efc23
         email: fake@example.com
         displayname: fake name
+        username: fake_name
 
     Error:
       type: object

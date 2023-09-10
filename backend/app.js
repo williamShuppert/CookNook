@@ -14,7 +14,7 @@ app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
-if (process.env.NODE_ENV == 'development') {
+if (process.env.NODE_ENV == 'dev') {
     app.get('/', (req, res) => res.json({message: 'hello world'}))
     app.get('/error', (req, res) => {throw new Error('this is an error')})
     app.use('/docs', docsRouter)

@@ -1,4 +1,4 @@
-import './config/config.js'
+import './env.init.js'
 import app from './app.js'
 import sequelize from './config/sequelize.js'
 

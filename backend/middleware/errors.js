@@ -19,13 +19,13 @@ export const errorHandler = (err, req, res, next) => {
         message = httpStatus[httpStatus.INTERNAL_SERVER_ERROR];
     }
 
-    if (process.env.NODE_ENV === 'development')
+    if (process.env.NODE_ENV === 'dev')
         console.log(err)
 
     const response = {
         code: statusCode,
         message,
-        ...(process.env.NODE_ENV === 'development' && { stack: err.stack }),
+        ...(process.env.NODE_ENV === 'dev' && { stack: err.stack }),
     }
 
     res.status(statusCode).send(response)
