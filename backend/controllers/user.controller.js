@@ -18,7 +18,9 @@ export default {
         const user = await UserService.createUser(email, username, displayname, password)
         const sanitized = {
             id: user.id,
-            displayname: user.displayname
+            displayname: user.displayname,
+            username: user.username,
+            email: user.email
         }
         res.status(httpStatus.CREATED).send(sanitized)
     }),

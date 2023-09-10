@@ -18,6 +18,8 @@ export const getUser = Joi.object().keys({
     params: Joi.object().keys({
         userId: Joi.string().uuid().required()
     })
+}).messages({
+    'string.guid': 'Invalid userId format. Please provide a valid UUID (version 4).',
 })
 
 export default {
