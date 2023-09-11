@@ -1,4 +1,4 @@
-import '../env.init.js'
+import '../env.config.js'
 import User from '../models/user.model.js'
 import { constUserData } from './fixtures/user.fixture.js'
 
