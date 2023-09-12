@@ -15,6 +15,6 @@ export const refreshJWTStrategy = new Strategy({
     // TODO: check token blacklist
     const user = await db.execute('SELECT * FROM users WHERE id = ?', [payload.userId], true)
     if (!user)
-        return done(null, false);
+        return done(new ApiError(httpStatus.UNAUTHORIZED, httpStatus[httpStatus.UNAUTHORIZED]));
     return done(null, user);
 }))

@@ -18,7 +18,7 @@ export default new Strategy({
           username: profile.displayName,
           email: profile.email
         }
-        db.transaction(async () => {
+        db.transaction(async () => { // TODO: catch if username or email is already in use when signing up for oauth
           await db.execute('INSERT INTO users (id, username, displayname, email) VALUES (?, ?, ?, ?)', [user.id, profile.displayName, profile.displayName, profile.email])
           await db.execute('INSERT INTO oauth (providerName, providerUserId, userId) VALUES (?, ?, ?, ?)', ['google', profile.id, user.id])
         })
@@ -33,7 +33,7 @@ export default new Strategy({
       }
       return done(null, user)
     } catch (error) {
-      return done(error, false)
+      return done(new ApiError(httpStatus.UNAUTHORIZED, httpStatus[httpStatus.UNAUTHORIZED]))
     }
   })
 )
