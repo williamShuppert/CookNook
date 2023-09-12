@@ -1,9 +1,9 @@
-import app from '../../app.js'
+import app from '../../src/app.js'
 import chai from 'chai'
 import chaiHttp from 'chai-http'
 import { genRandomUserData, constUserData } from '../fixtures/user.fixture.js'
 import { faker } from '@faker-js/faker'
-import { usePool } from '../../config/mysql2.js'
+import { usePool } from '../../src/config/mysql2.js'
 const should = chai.should()
 
 chai.use(chaiHttp)

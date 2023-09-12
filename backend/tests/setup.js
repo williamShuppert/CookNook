@@ -1,6 +1,6 @@
 import '../env.config.js'
 import { constUserData } from './fixtures/user.fixture.js'
-import { usePool } from '../config/mysql2.js'
+import { usePool } from '../src/config/mysql2.js'
 
 await usePool(async db => {
     // should always be available during testing and should not change

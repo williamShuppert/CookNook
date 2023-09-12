@@ -7,9 +7,9 @@
   "scripts": {
     "coverage": "c8 cross-env NODE_ENV=test mocha --require tests/setup.js ./tests/**/*.test.js",
     "test": "cross-env NODE_ENV=test mocha --require tests/setup.js ./tests/**/*.test.js",
-    "start:test": "cross-env NODE_ENV=test nodemon ./index.js",
-    "start:dev": "cross-env NODE_ENV=dev nodemon ./index.js",
-    "start:prod": "cross-env NODE_ENV=prod node ./index.js",
+    "start:test": "cross-env NODE_ENV=test nodemon ./src/index.js",
+    "start:dev": "cross-env NODE_ENV=dev nodemon ./src/index.js",
+    "start:prod": "cross-env NODE_ENV=prod node ./src/index.js",
     "migrate:test": "cross-env NODE_ENV=test sequelize db:migrate",
     "migrate:dev": "cross-env NODE_ENV=dev sequelize db:migrate",
     "migrate:prod": "cross-env NODE_ENV=prod sequelize db:migrate"

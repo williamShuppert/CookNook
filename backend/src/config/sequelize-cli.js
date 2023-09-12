@@ -1,4 +1,4 @@
-import '../env.config.js'
+import '../../env.config.js'
 
 const baseConfig = {
   "username": process.env.DB_USERNAME,
