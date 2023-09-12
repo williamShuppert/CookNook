@@ -1,5 +1,5 @@
 # Recipe App Backend API
-![Code Coverage](https://img.shields.io/badge/coverage-94.45%-brightgreen)
+![Static Badge](https://img.shields.io/badge/coverage-94.5%25-lightgreen)
 
 # Table of Contents
 - [Recipe App Backend API](#recipe-app-backend-api)
