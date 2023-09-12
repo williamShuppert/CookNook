@@ -1,8 +1,7 @@
 import app from '../../src/app.js'
-import chai from 'chai'
+import chai, { expect } from 'chai'
 import chaiHttp from 'chai-http'
-import { genRandomUserData, constUserData } from '../fixtures/user.fixture.js'
-import { faker } from '@faker-js/faker'
+import { constUserData } from '../fixtures/user.fixture.js'
 import { usePool } from '../../src/config/mysql2.js'
 import httpStatus from 'http-status'
 const should = chai.should()
@@ -25,6 +24,7 @@ describe('Auth', usePool(async db => {
             res.body.should.have.property('displayname').equal(constUserData.displayname)
             res.body.should.have.property('username').equal(constUserData.username)
             res.body.should.have.property('email').equal(constUserData.email)
+            expect(res).to.have.header('authorization')
             res.body.should.not.have.property('password')
         })
 
@@ -37,6 +37,7 @@ describe('Auth', usePool(async db => {
                 })
 
             res.should.have.status(httpStatus.UNAUTHORIZED)
+            expect(res).to.not.have.header('authorization')
         })
 
     })
