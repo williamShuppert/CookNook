@@ -7,12 +7,22 @@
   "scripts": {
     "coverage": "c8 cross-env NODE_ENV=test mocha --exit --require tests/setup.js ./tests/**/*.test.js",
     "test": "cross-env NODE_ENV=test mocha --exit --require tests/setup.js ./tests/**/*.test.js",
+
     "start:test": "cross-env NODE_ENV=test nodemon ./src/index.js",
-    "start:dev": "cross-env NODE_ENV=dev nodemon ./src/index.js",
+    "start:dev": " cross-env NODE_ENV=dev nodemon ./src/index.js",
     "start:prod": "cross-env NODE_ENV=prod node ./src/index.js",
-    "migrate:test": "cross-env NODE_ENV=test sequelize db:migrate",
-    "migrate:dev": "cross-env NODE_ENV=dev sequelize db:migrate",
-    "migrate:prod": "cross-env NODE_ENV=prod sequelize db:migrate"
+
+    "db:migrate:test": "cross-env NODE_ENV=test sequelize db:migrate",
+    "db:migrate:dev": " cross-env NODE_ENV=dev  sequelize db:migrate",
+    "db:migrate:prod": "cross-env NODE_ENV=prod sequelize db:migrate",
+
+    "db:migrate:undo:test": "cross-env NODE_ENV=test  sequelize db:migrate:undo",
+    "db:migrate:undo:dev": " cross-env NODE_ENV=dev   sequelize db:migrate:undo",
+    "db:migrate:undo:prod": "cross-env NODE_ENV=prod  sequelize db:migrate:undo",
+
+    "db:create:test": "cross-env NODE_ENV=test  sequelize db:create && npm run migrate:test",
+    "db:create:dev": " cross-env NODE_ENV=dev   sequelize db:create && npm run migrate:dev",
+    "db:create:prod": "cross-env NODE_ENV=prod  sequelize db:create && npm run migrate:prod"
   },
   "author": "Will Shuppert",
   "license": "ISC",
