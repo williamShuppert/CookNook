@@ -4,6 +4,7 @@ import helmet from 'helmet'
 import xss from 'xss-clean'
 import cors from 'cors'
 import { errorConverter, errorHandler } from './middleware/errors.js'
+import testRouter from './routes/test.route.js'
 import docsRouter from './routes/docs.route.js'
 import usersRouter from './routes/user.route.js'
 import authRouter from './routes/auth.route.js'
@@ -18,12 +19,13 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(passport.initialize())
 
-if (process.env.NODE_ENV == 'dev') {
-    app.get('/', (req, res) => res.json({message: 'hello world'}))
-    app.get('/error', (req, res) => {throw new Error('this is an error')})
-    app.use('/docs', docsRouter)
-}
+if (process.env.NODE_ENV === 'test')
+    app.use('/tests', testRouter)
 
+if (process.env.NODE_ENV === 'dev')
+    app.use('/docs', docsRouter)
+
+app.get('/', (req, res) => res.json({message: 'hello world'}))
 app.use('/users', usersRouter)
 app.use('/auth', authRouter)
 app.use((req, res) => res.sendStatus(404))
