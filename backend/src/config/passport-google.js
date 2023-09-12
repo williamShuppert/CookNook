@@ -9,7 +9,8 @@ export default new Strategy({
     passReqToCallback: true
   }, (request, accessToken, refreshToken, profile, done) => usePool(async db => {
     try {
-      const oauthUser = await db.execute("SELECT * FROM oauth JOIN users ON oauth.userId = users.id WHERE oauth.providerUserId = ? and providerName = 'not real';", [profile.id], true)
+      console.log(profile)
+      const oauthUser = await db.execute("SELECT * FROM oauth JOIN users ON oauth.userId = users.id WHERE oauth.providerUserId = ? and providerId = 1", [profile.id], true)
 
       if (!oauthUser) {
         const user = {
@@ -33,7 +34,7 @@ export default new Strategy({
       }
       return done(null, user)
     } catch (error) {
-      return done(new ApiError(httpStatus.UNAUTHORIZED, httpStatus[httpStatus.UNAUTHORIZED]))
+      return done(error)
     }
   })
 )
