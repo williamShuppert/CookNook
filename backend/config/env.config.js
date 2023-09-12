@@ -17,6 +17,8 @@ const envVarsSchema = Joi.object().keys({
     DB_PASSWORD: Joi.string().required(),
     ACCESS_JWT_SECRET: Joi.string().min(64).required(),
     REFRESH_JWT_SECRET: Joi.string().min(64).required(),
+    GOOGLE_CLIENT_ID: Joi.string().required(),
+    GOOGLE_CLIENT_SECRET: Joi.string().required()
 }).unknown()
 
 const { error } = envVarsSchema.prefs({ errors: { label: 'key' } }).validate(process.env, {abortEarly: false})
