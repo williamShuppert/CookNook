@@ -1,4 +1,4 @@
-import '../env.config.js'
+import '../config/env.config.js'
 import { constUserData } from './fixtures/user.fixture.js'
 import { usePool } from '../src/config/mysql2.js'
 

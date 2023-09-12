@@ -1,4 +1,4 @@
-import '../env.config.js'
+import '../config/env.config.js'
 import './config/mysql2.js'
 import app from './app.js'
 import sequelize from './config/sequelize.js'

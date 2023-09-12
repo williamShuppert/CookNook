@@ -1,8 +1,7 @@
 import dotenv from 'dotenv'
 import Joi from 'joi'
 
-if (!process.env.NODE_ENV)
-    process.env.NODE_ENV = 'dev'
+if (!process.env.NODE_ENV) throw new Error('NODE_ENV needs to be set')
 
 dotenv.config({ path: `.env.${process.env.NODE_ENV}` })
 
@@ -21,5 +20,6 @@ const { error } = envVarsSchema.prefs({ errors: { label: 'key' } }).validate(pro
 if (error)
     throw new Error(`Config validation error: ${error.message}`)
 
-console.log(`Current Environment: ${process.env.NODE_ENV}`)
-console.log(`Current Database: ${process.env.DB_NAME}`)
+console.log('Environment Config: (located at: /config/env.config.js)')
+console.log(` - Current Environment: "${process.env.NODE_ENV}"`)
+console.log(` - Current Database: "${process.env.DB_NAME}"`)

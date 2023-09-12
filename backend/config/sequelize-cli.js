@@ -1,6 +1,8 @@
-import '../../env.config.js'
+import './env.config.js'
 
-const baseConfig = {
+const NODE_ENV = process.env.NODE_ENV
+const config = {}
+config[NODE_ENV] = {
   "username": process.env.DB_USERNAME,
   "password": process.env.DB_PASSWORD,
   "database": process.env.DB_NAME,
@@ -8,8 +10,4 @@ const baseConfig = {
   "dialect": "mysql"
 }
 
-export default {
-  "dev": {...baseConfig},
-  "test": {...baseConfig},
-  "prod": {...baseConfig}
-}
+export default config
