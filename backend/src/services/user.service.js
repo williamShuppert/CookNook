@@ -2,6 +2,7 @@ import httpStatus from "http-status"
 import bcrypt from 'bcrypt'
 import { usePool } from "../config/mysql2.js"
 import { ApiError } from "../utils/api-error.js"
+import { v4 as uuid } from "uuid"
 
 export default {
     /**
@@ -37,6 +38,15 @@ export default {
 
         const encrypted = await bcrypt.hash(password, 12)
 
-        return await db.sproc('create_user', [email,username,displayname,encrypted], true)
+        const user = {
+            id: uuid(),
+            username,
+            email,
+            displayname
+        }
+
+        await db.execute('INSERT INTO users (id,email,username,displayname,password) VALUES (?, ?, ?, ?, ?)', [user.id,email,username,displayname,encrypted], true)
+
+        return user;
     })
 }

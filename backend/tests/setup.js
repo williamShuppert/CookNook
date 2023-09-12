@@ -4,12 +4,16 @@ import { usePool } from '../src/config/mysql2.js'
 
 await usePool(async db => {
     // should always be available during testing and should not change
-    const constUser = await db.execute('SELECT * FROM users WHERE id = ?', [constUserData.id])
-    if (!constUser) await db.query('INSERT INTO users (id, username, displayname, email, password) VALUES (?, ?, ?, ?, ?)', [
-        constUser.id,
-        constUser.username,
-        constUser.displayname,
-        constUser.email,
-        constUser.password
+    await db.execute('DELETE FROM users WHERE id = ? OR username = ? OR email = ?', [
+        constUserData.id,
+        constUserData.username,
+        constUserData.email
+    ])
+    await db.execute('INSERT INTO users (id, username, displayname, email, password) VALUES (?, ?, ?, ?, ?)', [
+        constUserData.id,
+        constUserData.username,
+        constUserData.displayname,
+        constUserData.email,
+        constUserData.password
     ])
 })
