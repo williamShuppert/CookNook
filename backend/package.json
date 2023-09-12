@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "coverage": "c8 cross-env NODE_ENV=test mocha --require tests/setup.js ./tests/**/*.test.js",
-    "test": "cross-env NODE_ENV=test mocha --require tests/setup.js ./tests/**/*.test.js",
+    "test": "cross-env NODE_ENV=test mocha --exit --require tests/setup.js ./tests/**/*.test.js",
     "start:test": "cross-env NODE_ENV=test nodemon ./src/index.js",
     "start:dev": "cross-env NODE_ENV=dev nodemon ./src/index.js",
     "start:prod": "cross-env NODE_ENV=prod node ./src/index.js",
