@@ -4,9 +4,9 @@ import helmet from 'helmet'
 import xss from 'xss-clean'
 import cors from 'cors'
 import { errorConverter, errorHandler } from './middleware/errors.js'
-import docsRouter from './routes/docs.js'
-import usersRouter from './routes/user.js'
-import authRouter from './routes/auth.js'
+import docsRouter from './routes/docs.route.js'
+import usersRouter from './routes/user.route.js'
+import authRouter from './routes/auth.route.js'
 import passport from 'passport'
 
 const app = express()
@@ -26,8 +26,7 @@ if (process.env.NODE_ENV == 'dev') {
 
 app.use('/users', usersRouter)
 app.use('/auth', authRouter)
-
-app.use((req, res, next) => res.sendStatus(404))
+app.use((req, res) => res.sendStatus(404))
 
 app.use(errorConverter)
 app.use(errorHandler)

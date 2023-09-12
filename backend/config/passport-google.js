@@ -1,52 +1,39 @@
 import { Strategy } from 'passport-google-oauth2'
-import User from '../models/user.model.js'
-import OAuth from '../models/oauth.model.js'
+import { usePool } from './mysql2.js'
+import { v4 as uuid } from 'uuid';
 
 export default new Strategy({
     clientID:     process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     callbackURL: `${process.env.DOMAIN}:${process.env.PORT}/auth/google/callback`,
     passReqToCallback: true
-  }, async (request, accessToken, refreshToken, profile, done) => {
+  }, (request, accessToken, refreshToken, profile, done) => usePool(async db => {
     try {
-
-      // TODO: move all models out, should be calling controllers instead, this is basically a route
-
-      // const user = await userController.findOrCreateOAuthUser('google', profile)
-      // return done(null, user) or done(error, false)
-
-
-      const oauthUser = await OAuth.findOne({where: {id: profile.id}})
+      const oauthUser = await db.execute("SELECT * FROM oauth JOIN users ON oauth.userId = users.id WHERE oauth.providerUserId = ? and providerName = 'not real';", [profile.id], true)
 
       if (!oauthUser) {
-        // If the user does not exist, create a new user
-        
-        // need to check for password and username
-
-        // create user
-        const user = await User.create({
-          username: profile.displayName,
+        const user = {
+          id: uuid(),
           displayname: profile.displayName,
+          username: profile.displayName,
           email: profile.email
+        }
+        db.transaction(async () => {
+          await db.execute('INSERT INTO users (id, username, displayname, email) VALUES (?, ?, ?, ?)', [user.id, profile.displayName, profile.displayName, profile.email])
+          await db.execute('INSERT INTO oauth (providerName, providerUserId, userId) VALUES (?, ?, ?, ?)', ['google', profile.id, user.id])
         })
 
-        // Store OAuth information in the oauth table
-        await OAuth.create({
-          userId: user.id,
-          provider: 'google',
-          id: profile.id
-        })
-
-        request.user = user.get({plain:true})
-
-        return done(null, user.get({plain:true}))
+        return done(null, user)
       }
 
-      const user = await User.findByPk(oauthUser.userId)
-
-      return done(null, user.get({plain:true}))
+      const user = {
+        id: oauthUser.id,
+        username: oauthUser.username,
+        email: oauthUser.email
+      }
+      return done(null, user)
     } catch (error) {
       return done(error, false)
     }
-  }
+  })
 )

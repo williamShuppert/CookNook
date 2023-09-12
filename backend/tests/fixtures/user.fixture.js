@@ -6,7 +6,8 @@ export const constUserData = {
     email: 'test@example.com',
     username: 'test-user',
     displayname: 'test user',
-    password: '$2b$12$XPMZtqOCAZNMZz0Ndl4kCuseB2NKBTYO7G3C0YdTmqn0WBTcuRzfK' // password
+    password: '$2b$12$XPMZtqOCAZNMZz0Ndl4kCuseB2NKBTYO7G3C0YdTmqn0WBTcuRzfK',
+    plainPassword: 'password'
 }
 
 export const genRandomUserData = async () => {

@@ -1,8 +1,8 @@
 import { catchAsync } from "../utils/catch-async.js"
 import { ApiError } from "../utils/api-error.js"
 import httpStatus from 'http-status'
-import UserService from '../services/user.js'
-import tokenService from "../services/token.js"
+import UserService from '../services/user.service.js'
+import tokenService from "../services/token.service.js"
 
 export default {
     sendAuthTokens: catchAsync(async (req, res) => {

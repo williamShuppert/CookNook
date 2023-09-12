@@ -1,7 +1,15 @@
 import '../env.config.js'
-import User from '../models/user.model.js'
 import { constUserData } from './fixtures/user.fixture.js'
+import { usePool } from '../config/mysql2.js'
 
-// should always be available during testing and should not change
-export let constUser = await User.findByPk(constUserData.id)
-if (!constUser) constUser = await User.create(constUserData)
+await usePool(async db => {
+    // should always be available during testing and should not change
+    const constUser = await db.execute('SELECT * FROM users WHERE id = ?', [constUserData.id])
+    if (!constUser) await db.query('INSERT INTO users (id, username, displayname, email, password) VALUES (?, ?, ?, ?, ?)', [
+        constUser.id,
+        constUser.username,
+        constUser.displayname,
+        constUser.email,
+        constUser.password
+    ])
+})

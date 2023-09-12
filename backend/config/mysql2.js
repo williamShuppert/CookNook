@@ -1,6 +1,6 @@
 import mysql from 'mysql2/promise'
 
-export const pool = mysql.createPool({
+const pool = mysql.createPool({
     connectionLimit: 10,
     host: 'localhost',
     user: process.env.DB_USERNAME,
@@ -63,7 +63,7 @@ export const usePool = async (func) => {
             transaction: async (func) => {
                 await connection.beginTransaction()
                 try {
-                    const res = await func(helper, connection)
+                    const res = await func()
                     await connection.commit()
                     return res
                 } catch (error) {

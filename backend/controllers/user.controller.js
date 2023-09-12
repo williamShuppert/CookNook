@@ -1,7 +1,6 @@
 import { catchAsync } from "../utils/catch-async.js"
-import { ApiError } from "../utils/api-error.js"
 import httpStatus from 'http-status'
-import UserService from '../services/user.js'
+import UserService from '../services/user.service.js'
 
 export default {
     getUser: catchAsync(async (req, res) => {
@@ -15,7 +14,7 @@ export default {
 
     createUser: catchAsync(async (req, res) => {
         const { displayname, username, email, password } = req.body
-        const user = await UserService.createUser(email, username, displayname, password)
+        const user = await UserService.createLocalUser(email, username, displayname, password)
         const sanitized = {
             id: user.id,
             displayname: user.displayname,

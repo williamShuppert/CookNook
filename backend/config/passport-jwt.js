@@ -1,5 +1,5 @@
 import { ExtractJwt, Strategy } from 'passport-jwt'
-import User from '../models/user.model.js'
+import { usePool } from './mysql2.js'
 
 export const accessJWTStrategy = new Strategy({
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -11,10 +11,10 @@ export const accessJWTStrategy = new Strategy({
 export const refreshJWTStrategy = new Strategy({
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     secretOrKey: process.env.REFRESH_JWT_SECRET,
-}, async (payload, done) => {
+}, (payload, done) => usePool(async db => {
     // TODO: check token blacklist
-    const user = await User.findByPk(payload.userId)
+    const user = await db.execute('SELECT * FROM users WHERE id = ?', [payload.userId], true)
     if (!user)
         return done(null, false);
     return done(null, user);
-})
+}))

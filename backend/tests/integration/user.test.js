@@ -1,15 +1,14 @@
 import app from '../../app.js'
 import chai from 'chai'
 import chaiHttp from 'chai-http'
-import User from '../../models/user.model.js'
 import { genRandomUserData, constUserData } from '../fixtures/user.fixture.js'
-import {constUser} from '../setup.js'
 import { faker } from '@faker-js/faker'
+import { usePool } from '../../config/mysql2.js'
 const should = chai.should()
 
 chai.use(chaiHttp)
 
-describe('Users', () => {
+describe('Users', usePool(async db => {
 
     describe('POST /users', () => {
         it('should create a new user and return it', async () => {
@@ -27,8 +26,7 @@ describe('Users', () => {
             res.body.should.not.have.property('password')
 
             after(async () => {
-                const user = await User.findByPk(res.body.id)
-                await user.destroy()
+                await db.execute('delete from users where id = ?', [res.body.id])
             })
         })
 
@@ -78,11 +76,11 @@ describe('Users', () => {
     describe('GET /users/:id', () => {
         it('should return user with valid id', async () => {
             const res = await chai.request(app)
-                .get(`/users/${constUser.id}`)
+                .get(`/users/${constUserData.id}`)
 
             res.should.have.status(200)
-            res.body.should.have.property('id').equal(constUser.id)
-            res.body.should.have.property('displayname').equal(constUser.displayname)
+            res.body.should.have.property('id').equal(constUserData.id)
+            res.body.should.have.property('displayname').equal(constUserData.displayname)
             res.body.should.not.have.property('password')
             res.body.should.not.have.property('email')
         })
@@ -105,4 +103,4 @@ describe('Users', () => {
             res.body.should.have.property('message').equal('User not found')
         })
     })
-})
+}))
