@@ -20,9 +20,9 @@
     "db:migrate:undo:dev": " cross-env NODE_ENV=dev   sequelize db:migrate:undo",
     "db:migrate:undo:prod": "cross-env NODE_ENV=prod  sequelize db:migrate:undo",
 
-    "db:create:test": "cross-env NODE_ENV=test  sequelize db:create && npm run migrate:test",
-    "db:create:dev": " cross-env NODE_ENV=dev   sequelize db:create && npm run migrate:dev",
-    "db:create:prod": "cross-env NODE_ENV=prod  sequelize db:create && npm run migrate:prod"
+    "db:create:test": "cross-env NODE_ENV=test  sequelize db:create && npm run db:migrate:test",
+    "db:create:dev": " cross-env NODE_ENV=dev   sequelize db:create && npm run db:migrate:dev",
+    "db:create:prod": "cross-env NODE_ENV=prod  sequelize db:create && npm run db:migrate:prod"
   },
   "author": "Will Shuppert",
   "license": "ISC",
