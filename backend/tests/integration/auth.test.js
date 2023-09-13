@@ -2,14 +2,14 @@ import app from '../../src/app.js'
 import chai, { expect } from 'chai'
 import chaiHttp from 'chai-http'
 import { constUserData } from '../fixtures/user.fixture.js'
-import { usePool } from '../../src/config/mysql2.js'
+import { useDbConn } from '../../src/config/mysql2.js'
 import httpStatus from 'http-status'
 import { faker } from '@faker-js/faker'
 const should = chai.should()
 
 chai.use(chaiHttp)
 
-describe('Auth', usePool(async db => {
+describe('Auth', useDbConn(async db => {
 
     describe('POST /auth/local', () => {
         it('should login a user with correct password', async () => {

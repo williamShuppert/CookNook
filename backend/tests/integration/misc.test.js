@@ -2,13 +2,13 @@ import app from '../../src/app.js'
 import chai from 'chai'
 import chaiHttp from 'chai-http'
 import { constUserData } from '../fixtures/user.fixture.js'
-import { usePool } from '../../src/config/mysql2.js'
+import { useDbConn } from '../../src/config/mysql2.js'
 import httpStatus from 'http-status'
 const should = chai.should()
 
 chai.use(chaiHttp)
 
-describe('Miscellaneous', usePool(async db => {
+describe('Miscellaneous', useDbConn(async db => {
     describe('GET /tests/non-operational-error', () => {
         it('should handle a non operation error correctly', async () => {
             const res = await chai.request(app)
