@@ -25,7 +25,7 @@ export default router
  * @swagger
  * tags:
  *   name: Auth
- *   description: User authorization
+ *   description: User auth
  */
 
 /**
@@ -68,4 +68,36 @@ export default router
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Unauthorized'
+ */
+
+/**
+ * @swagger
+ * /auth/google:
+ *   get:
+ *     summary: Login in with Google OAuth2.0
+ *     x-execute: false
+ *     description: |
+ *       This endpoint performs a redirection to another URL under certain conditions.
+ *       
+ *       When making a request to this endpoint, it may respond with an HTTP 302 (Found) status code,
+ *       which indicates a redirection. The redirection URL and conditions are specified based on
+ *       the request parameters.
+ *
+ *       Note: This redirection cannot be tested directly within the Swagger interface. 
+ *       Refer to the external documentation for more details on the redirection flow.
+ *     tags: [Auth]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       '302':
+ *         description: Found
+ *         headers:
+ *           Location:
+ *             description: The URL to which the redirection occurs.
+ *             schema:
+ *               type: string
+ *       '400':
+ *         description: Bad Request
+ *       '401':
+ *         description: Unauthorized
  */
