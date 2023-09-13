@@ -3,6 +3,7 @@ import express from 'express'
 import helmet from 'helmet'
 import xss from 'xss-clean'
 import cors from 'cors'
+import helmetOptions from './config/helmet.js'
 import { errorConverter, errorHandler } from './middleware/errors.js'
 import testRouter from './routes/test.route.js'
 import docsRouter from './routes/docs.route.js'
@@ -12,7 +13,7 @@ import passport from 'passport'
 
 const app = express()
 
-app.use(helmet())
+app.use(helmet(helmetOptions))
 app.use(xss())
 app.use(cors())
 app.use(express.json())
