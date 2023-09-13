@@ -9,7 +9,6 @@ export default new Strategy({
     passReqToCallback: true
   }, (request, accessToken, refreshToken, profile, done) => useDbConn(async db => {
     try {
-      console.log(profile)
       const oauthUser = await db.execute("SELECT * FROM oauth JOIN users ON oauth.userId = users.id WHERE oauth.providerUserId = ? and providerId = 1", [profile.id], true)
 
       if (!oauthUser) {

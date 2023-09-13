@@ -51,8 +51,6 @@ describe('Auth', usePool(async db => {
                     password: '1234'
                 })
 
-            console.log(res.body.message)
-
             res.should.have.status(httpStatus.UNAUTHORIZED)
             expect(res).to.not.have.header('authorization')
             res.body.should.have.property('code').equal(httpStatus.UNAUTHORIZED)
