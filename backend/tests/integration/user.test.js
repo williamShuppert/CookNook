@@ -3,12 +3,12 @@ import chai from 'chai'
 import chaiHttp from 'chai-http'
 import { genRandomUserData, constUserData } from '../fixtures/user.fixture.js'
 import { faker } from '@faker-js/faker'
-import { usePool } from '../../src/config/mysql2.js'
+import { useDbConn } from '../../src/config/mysql2.js'
 const should = chai.should()
 
 chai.use(chaiHttp)
 
-describe('Users', usePool(async db => {
+describe('Users', useDbConn(async db => {
 
     describe('POST /users', () => {
         it('should create a new user and return it', async () => {

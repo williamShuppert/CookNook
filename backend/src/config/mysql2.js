@@ -9,14 +9,15 @@ const pool = mysql.createPool({
 })
 
 /**
- * Acquires a connection from the connection pool, executes a provided function, 
- * and then releases the connection back to the pool.
+ * Acquires a single connection from the connection pool, executes the given function, 
+ * and then releases the connection back to the pool. This works very well for lots of
+ * separate queries and also provides a helper method for convenience and functionality.
  *
  * @param {Function} func - The function to execute.
  * It should accept two arguments: a connection helper object and a mysql2 connection.
  * @returns {Promise<any>} - A Promise that resolves to the result of the provided function.
  */
-export const usePool = async (func) => {
+export const useDbConn = async (func) => {
     const connection = await pool.getConnection()
     try {
         const helper = {
@@ -81,7 +82,7 @@ export const usePool = async (func) => {
 }
 
 // Test database connection
-await usePool(async db => {
+await useDbConn(async db => {
     const testQuery = 'SELECT 1+1 AS ans'
     await db.query(testQuery)
     console.log(`Testing DB connection: ${testQuery}\n  - Connection successful`)

@@ -1,8 +1,8 @@
 import '../config/env.config.js'
 import { constUserData } from './fixtures/user.fixture.js'
-import { usePool } from '../src/config/mysql2.js'
+import { useDbConn } from '../src/config/mysql2.js'
 
-await usePool(async db => {
+await useDbConn(async db => {
     // should always be available during testing and should not change
     await db.execute('DELETE FROM users WHERE id = ? OR username = ? OR email = ?', [
         constUserData.id,

@@ -1,5 +1,5 @@
 import { Strategy } from 'passport-google-oauth2'
-import { usePool } from './mysql2.js'
+import { useDbConn } from './mysql2.js'
 import { v4 as uuid } from 'uuid';
 
 export default new Strategy({
@@ -7,7 +7,7 @@ export default new Strategy({
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     callbackURL: `${process.env.DOMAIN}:${process.env.PORT}/auth/google/callback`,
     passReqToCallback: true
-  }, (request, accessToken, refreshToken, profile, done) => usePool(async db => {
+  }, (request, accessToken, refreshToken, profile, done) => useDbConn(async db => {
     try {
       console.log(profile)
       const oauthUser = await db.execute("SELECT * FROM oauth JOIN users ON oauth.userId = users.id WHERE oauth.providerUserId = ? and providerId = 1", [profile.id], true)

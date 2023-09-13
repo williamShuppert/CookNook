@@ -1,10 +1,10 @@
 import LocalStrategy from 'passport-local'
 import bcrypt from 'bcrypt'
-import { usePool } from './mysql2.js'
+import { useDbConn } from './mysql2.js'
 import httpStatus from 'http-status'
 import { ApiError } from '../utils/api-error.js'
 
-export default new LocalStrategy((username, password, done) => usePool(async db => {
+export default new LocalStrategy((username, password, done) => useDbConn(async db => {
     let user = await db.execute('SELECT * FROM users WHERE username = ?', [username], true)
 
     if (!user)

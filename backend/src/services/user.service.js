@@ -1,6 +1,6 @@
 import httpStatus from "http-status"
 import bcrypt from 'bcrypt'
-import { usePool } from "../config/mysql2.js"
+import { useDbConn } from "../config/mysql2.js"
 import { ApiError } from "../utils/api-error.js"
 import { v4 as uuid } from "uuid"
 
@@ -10,7 +10,7 @@ export default {
      * @param {ObjectId} id
      * @returns {Promise<any>}
      */
-    getUserById: (id) => usePool(async db => {
+    getUserById: (id) => useDbConn(async db => {
         const user = await db.execute(`select * from users where id = ?`, [id], true)
         if (!user)
             throw new ApiError(httpStatus.NOT_FOUND, 'User not found')
@@ -25,7 +25,7 @@ export default {
      * @param {String} password
      * @returns {Promise<User>}
      */
-    createLocalUser: (email, username, displayname, password) => usePool(async db => {
+    createLocalUser: (email, username, displayname, password) => useDbConn(async db => {
         const existingEmail = await db.execute('select * from users where email = ?', [email], true)
         const existingUsername = await db.execute('select * from users where username = ?', [username], true)
 
