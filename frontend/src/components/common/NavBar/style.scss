@@ -10,10 +10,12 @@ nav {
     padding: 5px var(--page-padding);
     padding-bottom: var(--page-padding);
     box-shadow: var(--shadow);
-    font-size: 1rem;
+    font-size: 1.2rem;
     z-index: 10;
 
     a {
+        padding: 0 5px;
+        
         &:nth-child(3) img {
             width: 1.7em;
             height: 1.7em;
