@@ -7,22 +7,31 @@ nav {
     display: flex;
     justify-content: space-around;
     align-items: center;
-    padding: 5px var(--page-padding);
-    padding-bottom: var(--page-padding);
     box-shadow: var(--shadow);
     font-size: 1.2rem;
     z-index: 10;
 
     a {
-        padding: 0 5px;
-        
+        flex: 1;
+        text-align: center;
+        position: relative;
+        padding: 5px 0;
+        padding-bottom: var(--page-padding);
+
         &:nth-child(3) img {
             width: 1.7em;
             height: 1.7em;
         }
      
-        &.active {
-            border-bottom: solid 2px black;
+        &.active::after {
+            content: '';
+            position: absolute;
+            width: calc(1.7em * .5);
+            height: 2px;
+            background-color: black;
+            bottom: calc(var(--page-padding) - 4px);
+            left: 50%;
+            transform: translateX(-50%);
         }
     }
 }
