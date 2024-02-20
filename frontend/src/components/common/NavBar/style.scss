@@ -7,7 +7,8 @@ nav {
     display: flex;
     justify-content: space-around;
     align-items: center;
-    padding: 7px var(--page-padding);
+    padding: 5px var(--page-padding);
+    padding-bottom: var(--page-padding);
     box-shadow: var(--shadow);
     font-size: 1rem;
     z-index: 10;
