@@ -1,0 +1,52 @@
+.recipe-card {
+    position: relative;
+    font-size: .65rem;
+    width: 100%;
+    box-shadow: var(--shadow);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+
+    .ratings, .bookmarks {
+        display: flex;
+        align-items: center;
+        gap: 2px;
+        margin: 4px;
+        padding: 4px 6px;
+        border: none;
+        background-color: var(--bg-color-2);
+        font-weight: 300;
+        border-radius: var(--border-radius);
+
+        > span {
+            margin-top: 1.5px;
+        }
+    }
+
+    .bookmarks {
+        right: 0;
+    }
+
+    .body {
+        cursor: pointer;
+
+        .name-and-author {
+            text-align: center;
+            padding: 5px;
+            padding-bottom: 0;
+    
+            h1 {
+                font-weight: 400;
+                margin: 0;
+                font-size: 1.4em;
+            }
+    
+            span {
+                font-weight: 300;
+            }        
+        }
+    
+        .general-recipe-info {
+            padding: 8px 0;
+        }
+    }
+}

@@ -1,0 +1,35 @@
+
+.general-recipe-info {
+    display: flex;
+    padding: 10px 0;
+    border-top: solid 1px #e1e1e1;
+    border-bottom: solid 1px #e1e1e1;
+    font-weight: 300;
+
+    &.no-border {
+        border: none;
+    }
+
+    div {
+        position: relative;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        & > span {
+            text-align: center;
+            font-size: .9em;
+        }
+
+        &:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            width: 1px;
+            height: 100%;
+            background-color: #e1e1e1;
+            right: 0;
+        }
+    }
+}

@@ -1,0 +1,15 @@
+.search-page {
+    padding: 0 var(--page-padding);
+    width: 100%;
+
+    .results {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 15px;
+
+        .recipe-card {
+            flex: 1 1 40%;
+        }
+    }
+}

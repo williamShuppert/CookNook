@@ -1,0 +1,57 @@
+.recipe-view-page {
+    padding-bottom: 100%;
+    min-height: 100%;
+    background-color: var(--bg-color-1);
+    z-index: 1;
+
+    header {
+        position: sticky;
+        z-index: 1;
+        top: -1px;
+        padding-top: var(--page-padding);
+        padding-bottom: 15px;
+        display: grid;
+        grid-template-columns: 50px 1fr 50px;
+        align-items: center;
+        background-color: white;
+
+        & > div {
+            display: grid;
+            place-content: center;
+        }
+
+        .name-and-author {
+            display: block;
+            text-align: center;
+
+            h1 {
+                padding: 0;
+                margin: 0;
+                border: none;
+            }
+
+            span {
+                font-weight: 300;
+            }
+        }
+    }
+
+    .page {
+        padding: 0 var(--page-padding);
+
+        .hero {
+            padding: 0 30px;
+            padding-bottom: 15px;
+
+            .sqr {
+                border-radius: var(--border-radius);
+                overflow: hidden;
+            }
+        }
+    
+        .description {
+            font-weight: 300;
+        }
+    }
+
+}

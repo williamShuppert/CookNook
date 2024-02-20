@@ -1,0 +1,25 @@
+.interactions {
+    padding-top: 15px;
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+
+    button {
+        border: none;
+        background-color: transparent;
+        display: flex;
+        gap: 4px;
+    }
+}
+
+.drawer .stars {
+    display: flex;
+    justify-content: center;
+    padding: 15px 0;
+    gap: 8px;
+
+    .icon {
+        width: 1.5rem;
+        height: 1.5rem;
+    }
+}

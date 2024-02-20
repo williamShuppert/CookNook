@@ -1,0 +1,93 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;700&display=swap');
+@import "normalize.css";
+
+:root {
+    --color-1: #020202;
+
+    --bg-color-1: #ffffff;
+    --bg-color-2: #F3F3F3;
+    --bg-color-3: #D9D9D9;
+
+    --border-radius: 12px;
+
+    --page-padding: 20px;
+
+    --shadow: 0 0 4px 0 rgba(0, 0, 0, 0.25);
+}
+
+// html, body {
+//     min-height: 300%;
+// }
+
+*, html, body {
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+    color: var(--color-1);
+}
+
+button {
+    cursor: pointer;
+}
+
+hr {
+    border: none;
+    border-bottom: solid 1px var(--bg-color-2);
+    margin: 20px 0;
+}
+
+.pages {
+    & > * {
+        position: absolute;
+    }
+}
+
+// Common Classes
+
+.page-title {
+    margin: 0;
+    font-size: 1.5rem;
+    text-align: center;
+    margin: 20px 0 16px 0;
+    padding-bottom: 4px;
+    border-bottom: solid 1px var(--bg-color-2);
+}
+
+.button-circle {
+    border: none;
+    background-color: var(--bg-color-2);
+    border-radius: 100%;
+    padding: 8px;
+    display: grid;
+    place-content: center;
+}
+
+.icon {
+    width: 1em;
+    height: 1em;
+
+    &.star {
+        width: 1.15em;
+        height: 1.15em;
+    }
+}
+
+.sqr {
+    width: 100%;
+    padding-bottom: 100%;
+    position: relative;
+
+    > * {
+        position: absolute;
+    }
+
+    > img {
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+    }
+}
+
+.small-caps {
+    font-size: .8em;
+    text-transform: uppercase;
+}
