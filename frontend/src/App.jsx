@@ -1,4 +1,4 @@
-import { Routes, Route, Link, useLocation } from 'react-router-dom'
+import { Routes, Route, Link, useLocation, Navigate } from 'react-router-dom'
 import RecipeViewPage from './components/pages/RecipeViewPage'
 import { AnimatePresence, motion } from 'framer-motion'
 import SearchPage from './components/pages/SearchPage';
@@ -11,6 +11,8 @@ function App() {
     <div className="pages">
       <AnimatePresence initial={false} mode='sync'>
           <Routes location={location} key={location.key}>
+              <Route exact path="" element={<Navigate to="/search" replace />} />
+
               <Route path="/search" element={<SearchPage />} />
 
               <Route path="/search/:id" element={<RecipeViewPage />} />
