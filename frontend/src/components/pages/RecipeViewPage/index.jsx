@@ -1,29 +1,50 @@
 import './index.scss'
-import porkBowl from '/pork-bowl.jpg'
 import arrowLeft from '/src/assets/icons/arrow-left-solid.svg'
 import ellipsis from '/src/assets/icons/ellipsis-solid.svg'
 import SectionHeader from '../../common/SectionHeader'
 import GeneralRecipeInfo from '../../common/GeneralRecipeInfo'
 import Interactions from './Interactions'
 import { motion } from 'framer-motion'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useEffect, useRef, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { api, recipeUpdated, selectRecipeById } from '../../../redux/slices/searchPageSlice'
 
 const RecipeViewPage = () => {
-    const pageRef = useRef()
-    const [recipe, setRecipe] = useState()
-
+    const dispatch = useDispatch()
     const location = useLocation()
     const navigate = useNavigate()
+    const pageRef = useRef()
+    const { id: paramId } = useParams()
+    const desiredId = paramId ? paramId : location.state.recipe.id
+
+    const [recipe, setRecipe] = useState(
+        useSelector(selectRecipeById(desiredId))
+    )
 
     useEffect(() => {
-        if (location.state?.recipe == null) {
-            navigate('/search')
-            return;
+
+        const getRecipe = async () => {
+            if (recipe?.id == desiredId) return;
+            try {
+                const foundRecipe = await dispatch(api.getRecipe(desiredId)).unwrap()
+                if (!foundRecipe)
+                    navigate('/search')
+                else
+                    setRecipe(foundRecipe)
+            } catch {
+                navigate('/search')
+            }
         }
-        
-        setRecipe(location.state.recipe)
-    }, [])
+        getRecipe()
+
+    }, [recipe, dispatch, desiredId])
+
+    const handleRecipeUpdate = (updatedRecipe) => {
+        dispatch(recipeUpdated(updatedRecipe)) // attempt to update redux
+        setRecipe(updatedRecipe) // update this component
+        dispatch(api.putRecipe(updatedRecipe)) // update db
+    }
 
     const handleNav = () => {
         pageRef.current.style.top = -window.scrollY + 'px' // About to animate out, set top to prevent scroll snapping
@@ -86,7 +107,7 @@ const RecipeViewPage = () => {
                         <img src={recipe?.image} />
                     </div>
 
-                    <Interactions recipe={recipe} setRecipe={setRecipe} />
+                    <Interactions recipe={recipe} setRecipe={handleRecipeUpdate} />
                 </div>
 
                 <GeneralRecipeInfo difficulty={recipe?.difficulty} minutes={recipe?.minutes} calories={recipe?.calories} />

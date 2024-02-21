@@ -5,7 +5,7 @@ import { useCallback, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import SearchInput from './SearchInput'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchRecipes, recipeUpdated, selectRecipes, selectRecipesStatus } from '../../../features/recipes/recipesSlice'
+import { api, recipeUpdated, selectRecipes, selectRecipesStatus } from '../../../redux/slices/searchPageSlice'
 
 const SearchPage = () => {
     const dispatch = useDispatch()
@@ -16,7 +16,7 @@ const SearchPage = () => {
 
     useEffect(() => {
         if (recipesStatus == 'idle')
-            dispatch(fetchRecipes())
+            dispatch(api.getRecipeSearch())
     }, [dispatch, recipesStatus])
 
     

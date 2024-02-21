@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import SearchBar from '../../../common/SearchBar'
 
-const SearchInput = () => {
+const SearchSection = () => {
     const [search, setSearch] = useState('')
 
     return (
@@ -14,4 +14,4 @@ const SearchInput = () => {
     )
 }
 
-export default SearchInput
+export default SearchSection

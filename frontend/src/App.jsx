@@ -2,7 +2,7 @@ import { Routes, Route, Link, useLocation, Navigate } from 'react-router-dom'
 import RecipeViewPage from './components/pages/RecipeViewPage'
 import { AnimatePresence, motion } from 'framer-motion'
 import SearchPage from './components/pages/SearchPage';
-import Counter from './features/counter/counter';
+import Counter from './redux/slices/counter/counter';
 
 function App() {
   const location = useLocation();
