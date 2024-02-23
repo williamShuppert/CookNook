@@ -1,13 +1,14 @@
 import { ApiError } from "../utils/apiError.js"
 import httpStatus from "http-status"
+import { mysqlErrorToHttpStatus } from "../utils/mysql2Errors.js"
 
-export const errorConverter = (err, req, res, next) => {
-    let error = err
+export const errorConverter = (error, req, res, next) => {
     if (!(error instanceof ApiError)) {
-        const statusCode = httpStatus.INTERNAL_SERVER_ERROR
-        const message = httpStatus[httpStatus.INTERNAL_SERVER_ERROR]
-        error = new ApiError(statusCode, message, false, err.stack)
+        const status = httpStatus.INTERNAL_SERVER_ERROR
+        const message = httpStatus[status]
+        error = new ApiError(status, message, false, error.stack)
     }
+
     next(error)
 }
 

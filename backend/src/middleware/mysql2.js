@@ -1,6 +1,6 @@
 import { pool } from '../config/mysql2.js'
 
-export const db = () => async (req, res, next) => {
+export const useDB = () => async (req, res, next) => {
     const conn = await pool.getConnection()
 
     req.db = {
