@@ -2,7 +2,7 @@ import { catchAsync } from '../utils/catchAsync.js'
 import { UsersService } from '../services/users.js'
 import httpStatus from 'http-status'
 import { AuthService } from '../services/auth.js'
-import { accessCookieOptions, accessTokenLifetime, accessTokenName, refreshCookieOptions, refreshTokenLifetime, refreshTokenName } from '../config/cookies.js'
+import { accessCookieOptions, accessTokenName, refreshCookieOptions, refreshTokenName } from '../config/cookies.js'
 
 export const createUser = () => catchAsync(async (req, res) => {
     const { username, email, password } = req.body
