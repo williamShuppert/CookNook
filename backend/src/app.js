@@ -1,4 +1,5 @@
 import './config/env.js'
+import './config/passport.js'
 import express from 'express'
 import helmet from 'helmet'
 import cors from 'cors'
@@ -9,6 +10,7 @@ import { errorConverter, errorHandler } from './middleware/errors.js'
 import { catchAsync } from './utils/catchAsync.js'
 import usersRoute from './routes/users.js'
 import authRoute from './routes/auth.js'
+import passport from 'passport'
 
 const port = process.env.PORT
 const app = express()
@@ -19,6 +21,7 @@ app.use(cors())
 app.use(cookieParser())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+app.use(passport.initialize())
 
 app.get('/', (req, res) => res.json({message: 'hello world'}))
 app.get('/db', useDB(), catchAsync(async (req, res) => {

@@ -3,21 +3,29 @@ import { accessCookieOptions, accessTokenName, refreshCookieOptions, refreshToke
 import { catchAsync } from '../utils/catchAsync.js'
 import { AuthService } from '../services/auth.js';
 
+const sendAuthCookies = async (req, res, userId) => {
+    res.cookie(
+        refreshTokenName,
+        await AuthService(req.db).createRefreshToken(userId),
+        refreshCookieOptions)
+
+    res.cookie(
+        accessTokenName,
+        await AuthService(req.db).createAccessToken(userId),
+        accessCookieOptions)
+}
+
 export const localLogin = () => catchAsync(async (req, res) => {
     const { username, email, password } = req.body
 
     const user = await AuthService(req.db).localLogin(username, email, password)
 
-    res.cookie(
-        refreshTokenName,
-        await AuthService(req.db).createRefreshToken(user.id),
-        refreshCookieOptions)
+    await sendAuthCookies(req, res, user.id)
+    res.sendStatus(httpStatus.OK)
+})
 
-    res.cookie(
-        accessTokenName,
-        await AuthService(req.db).createAccessToken(user.id),
-        accessCookieOptions)
-
+export const googleLogin = () => catchAsync(async (req, res) => {
+    await sendAuthCookies(req, res, req.user.id)
     res.sendStatus(httpStatus.OK)
 })
 

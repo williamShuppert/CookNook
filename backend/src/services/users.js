@@ -5,11 +5,11 @@ import { ApiError } from '../utils/apiError.js'
 import httpStatus from 'http-status'
 
 export const UsersService = (db) => ({
-    createUser: async (username, email, password) => {
+    createUser: async (username, email, password, emailVerified = false) => {
         const id = UUID()
-        const hashed = await bcrypt.hash(password, 12)
+        const hashed = password ? await bcrypt.hash(password, 12) : null
 
-        await db.execute('INSERT INTO users (id, email, username, password) VALUES (?,?,?,?)', [id, email, username, hashed])
+        await db.execute('INSERT INTO users (id, email, username, password, emailVerified) VALUES (?,?,?,?,?)', [id, email, username, hashed, emailVerified])
             .catch(error => {
                 const key = getDuplicateEntryKey(error)
                 if (!key) throw error
@@ -27,7 +27,7 @@ export const UsersService = (db) => ({
         email = email ?? user.email
         newPassword = newPassword ?? password
 
-        const correctPassword = await bcrypt.compare(password, user.password)
+        const correctPassword = user.password ? await bcrypt.compare(password, user.password) : true
         if (!correctPassword) throw new ApiError(httpStatus.UNAUTHORIZED, 'incorrect password')
 
         const hashed = await bcrypt.hash(newPassword, 12)
