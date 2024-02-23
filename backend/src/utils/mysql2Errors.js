@@ -1,5 +1,4 @@
 import httpStatus from "http-status";
-import { capitalize } from "./string.js";
 
 export const getDuplicateEntryKey = (err) => {
     if (err.errno == 1062)

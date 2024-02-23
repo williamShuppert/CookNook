@@ -3,10 +3,12 @@ import express from 'express'
 import helmet from 'helmet'
 import cors from 'cors'
 import helmetOptions from './config/helmet.js'
+import cookieParser from 'cookie-parser'
 import { useDB } from './middleware/mysql2.js'
 import { errorConverter, errorHandler } from './middleware/errors.js'
 import { catchAsync } from './utils/catchAsync.js'
 import usersRoute from './routes/users.js'
+import authRoute from './routes/auth.js'
 
 const port = process.env.PORT
 const app = express()
@@ -14,6 +16,7 @@ const app = express()
 app.disable('x-powered-by')
 app.use(helmet(helmetOptions))
 app.use(cors())
+app.use(cookieParser())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
@@ -23,6 +26,7 @@ app.get('/db', useDB(), catchAsync(async (req, res) => {
 }))
 
 app.use('/users', usersRoute)
+app.use('/auth', authRoute)
 
 app.use(errorConverter)
 app.use(errorHandler)

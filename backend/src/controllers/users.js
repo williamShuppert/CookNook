@@ -1,11 +1,23 @@
 import { catchAsync } from '../utils/catchAsync.js'
 import { UsersService } from '../services/users.js'
 import httpStatus from 'http-status'
+import { AuthService } from '../services/auth.js'
+import { accessCookieOptions, accessTokenLifetime, accessTokenName, refreshCookieOptions, refreshTokenLifetime, refreshTokenName } from '../config/cookies.js'
 
 export const createUser = () => catchAsync(async (req, res) => {
     const { username, email, password } = req.body
 
     const id = await UsersService(req.db).createUser(username, email, password)
+
+    res.cookie(
+        refreshTokenName,
+        await AuthService(req.db).createRefreshToken(id),
+        refreshCookieOptions)
+
+    res.cookie(
+        accessTokenName,
+        await AuthService(req.db).createAccessToken(id),
+        accessCookieOptions)
 
     res.status(httpStatus.CREATED).send({
         id,
