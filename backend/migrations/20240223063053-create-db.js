@@ -16,13 +16,35 @@ module.exports = {
           PRIMARY KEY (id),
           UNIQUE KEY username (username),
           UNIQUE KEY email (email)
-        );`, {transaction: t})
+        );`, {transaction: t}),
+      queryInterface.sequelize.query(`
+        CREATE TABLE oauth_providers (
+          id INT PRIMARY KEY AUTO_INCREMENT,
+          name VARCHAR(10) UNIQUE
+        );`, {transaction: t}),
+      queryInterface.sequelize.query(`
+        INSERT INTO oauth_providers (name) VALUES ('google');`,
+        {transaction: t}),
+      queryInterface.sequelize.query(`
+        CREATE TABLE oauth (
+          providerId INT NOT NULL,
+          providerUserId VARCHAR(255) NOT NULL,
+          userId VARCHAR(36) NOT NULL,
+          createdAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+          updatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+          UNIQUE (userId, providerId),
+          PRIMARY KEY (providerId, providerUserId),
+          FOREIGN KEY (userId) REFERENCES users(id),
+          FOREIGN KEY (providerId) REFERENCES oauth_providers(id)
+        );`, {transaction: t}),
       ]))
   },
 
   async down (queryInterface, Sequelize) {
     return queryInterface.sequelize.transaction(t => Promise.all([
-      queryInterface.dropTable('users', {transaction: t})
+      queryInterface.dropTable('oauth', {transaction: t}),
+      queryInterface.dropTable('users', {transaction: t}),
+      queryInterface.dropTable('oauth_providers', {transaction: t})
     ]))
   }
 };
