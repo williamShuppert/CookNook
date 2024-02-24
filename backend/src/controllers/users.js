@@ -3,6 +3,7 @@ import { UsersService } from '../services/users.js'
 import httpStatus from 'http-status'
 import { AuthService } from '../services/auth.js'
 import { accessCookieOptions, accessTokenName, refreshCookieOptions, refreshTokenName } from '../config/cookies.js'
+import { ApiError } from '../utils/apiError.js'
 
 export const createUser = () => catchAsync(async (req, res) => {
     const { username, email, password } = req.body
@@ -29,6 +30,8 @@ export const createUser = () => catchAsync(async (req, res) => {
 export const updateUser = () => catchAsync(async (req, res) => {
     const { id } = req.params
     const { username, email, newPassword, password } = req.body
+
+    if (req.user.id != id) throw new ApiError(httpStatus.FORBIDDEN)
 
     await UsersService(req.db).updateUser(id, username, email, newPassword, password)
 
