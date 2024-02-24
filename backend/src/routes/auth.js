@@ -11,7 +11,7 @@ router.post('/local', validate(localLoginValidation), useDB(), usePassport('loca
 
 router.post('/logout', useDB(), logout())
 
-router.get('/google', usePassport('local', { scope: ['email', 'profile']}))
+router.get('/google', usePassport('google', { scope: ['email', 'profile']}))
 router.get('/google/callback', useDB(), usePassport('google'), loginSuccess())
 
 export default router

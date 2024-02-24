@@ -43,6 +43,23 @@ export const AuthService = (db) => ({
         }
     },
 
+    googleLogin: async (profile) => {
+        const oauthUser = await AuthService(db).getOAuthUser(1, profile.id)
+            
+        if (!oauthUser) {
+            // TODO: handle duplicate usernames
+            const userId = await db.transaction(async () => {
+                const userId = await UsersService(db).createUser(profile.displayName, profile.email, null, profile.email_verified)
+                await AuthService(db).insertOAuthUser(1, profile.id, userId)
+                return userId
+            })
+
+            return { id: userId }
+        }
+
+        return { id: oauthUser.userId }
+    },
+
     getOAuthUser: async (providerId, providerUserId) => {
         return await db.execute('SELECT * FROM oauth JOIN users ON userId = id WHERE providerId = ? and providerUserId = ?', [providerId, providerUserId], true)
     },
