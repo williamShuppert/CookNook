@@ -3,6 +3,7 @@ import RecipeViewPage from './components/pages/RecipeViewPage'
 import { AnimatePresence, motion } from 'framer-motion'
 import SearchPage from './components/pages/SearchPage';
 import Counter from './redux/slices/counter/counter';
+import AuthPage from './components/pages/AuthPage';
 
 function App() {
   const location = useLocation();
@@ -11,6 +12,8 @@ function App() {
     <div className="pages">
       <AnimatePresence initial={false} mode='sync'>
           <Routes location={location} key={location.key}>
+
+            <Route path="/auth" element={<AuthPage />} />
 
             <Route path="/search" element={<SearchPage />} />
 
