@@ -1,8 +1,7 @@
-import { Routes, Route, Link, useLocation, Navigate } from 'react-router-dom'
+import { Routes, Route, useLocation, Navigate } from 'react-router-dom'
 import RecipeViewPage from './components/pages/RecipeViewPage'
-import { AnimatePresence, motion } from 'framer-motion'
+import { AnimatePresence } from 'framer-motion'
 import SearchPage from './components/pages/SearchPage';
-import Counter from './redux/slices/counter/counter';
 import AuthPage from './components/pages/AuthPage';
 import RequireAuth from './components/common/RequireAuth';
 
@@ -15,38 +14,15 @@ function App() {
           <Routes location={location} key={location.key}>
 
             <Route path="/auth" element={<AuthPage />} />
-
             <Route path="/search" element={<SearchPage />} />
-
             <Route path="/search/:id" element={<RecipeViewPage />} />
-            <Route path="/*" element={<Navigate to="/search" replace />} />
 
             <Route element={<RequireAuth />}>
               <Route path="/protected" element={<span>protected</span>} />
             </Route>
 
-            <Route path="/somewhere" element={<motion.div
-              style={{height: '200vh'}}
-              transition={{ ease: 'easeInOut'}}
-              initial={{x: '100%'}}
-              animate={{x: 0}}
-              exit={{x: '100%', position: 'absolute'}}
-            >
-              <Link to="/" state={{from: 'somewhere'}}>view recipe</Link><br />
-              <Link to="/elsewhere">go elsewhere</Link>
-            </motion.div>}/>
+            <Route path="/*" element={<Navigate to="/search" replace />} />
 
-            <Route path="/elsewhere" element={<motion.div
-              transition={{ ease: 'easeInOut'}}
-              initial={{x: '100%'}}
-              animate={{x: 0}}
-              exit={{x: '100%', position: 'absolute'}}
-            >
-              <Link to="/" state={{from: 'elsewhere'}}>view recipe</Link><br />
-              <Link to="/somewhere">go somewhere</Link>
-            </motion.div>}/>
-
-              <Route path='counter' element={<Counter/>} />
           </Routes>
       </AnimatePresence>
     </div>
