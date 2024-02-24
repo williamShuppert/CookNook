@@ -3,8 +3,10 @@ import { useLoginMutation } from '../../../redux/slices/authApiSlice'
 import { setUser } from '../../../redux/slices/authSlice'
 import './style.scss'
 import { useState } from 'react'
+import { useDispatch } from 'react-redux'
 
 const AuthPage = () => {
+    const dispatch = useDispatch()
     const navigate = useNavigate()
     const [login, { isLoading }] = useLoginMutation()
 
@@ -34,7 +36,7 @@ const AuthPage = () => {
 
         login({ username, password }).unwrap()
             .then(res => {
-                setUser(res)
+                dispatch(setUser(res))
                 navigate('/')
             })
             .catch(_ => setErrors({response: 'Incorrect login' }))

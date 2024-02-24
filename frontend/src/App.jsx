@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import SearchPage from './components/pages/SearchPage';
 import Counter from './redux/slices/counter/counter';
 import AuthPage from './components/pages/AuthPage';
+import RequireAuth from './components/common/RequireAuth';
 
 function App() {
   const location = useLocation();
@@ -19,6 +20,10 @@ function App() {
 
             <Route path="/search/:id" element={<RecipeViewPage />} />
             <Route path="/*" element={<Navigate to="/search" replace />} />
+
+            <Route element={<RequireAuth />}>
+              <Route path="/protected" element={<span>protected</span>} />
+            </Route>
 
             <Route path="/somewhere" element={<motion.div
               style={{height: '200vh'}}
