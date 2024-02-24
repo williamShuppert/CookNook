@@ -11,13 +11,14 @@ import { catchAsync } from './utils/catchAsync.js'
 import usersRoute from './routes/users.js'
 import authRoute from './routes/auth.js'
 import passport from 'passport'
+import { corsOptions } from './config/cors.js'
 
 const port = process.env.PORT
 const app = express()
 
 app.disable('x-powered-by')
 app.use(helmet(helmetOptions))
-app.use(cors())
+app.use(cors(corsOptions))
 app.use(cookieParser())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
