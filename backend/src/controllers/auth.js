@@ -17,7 +17,7 @@ const sendAuthCookies = async (req, res, userId) => {
 
 export const loginSuccess = () => catchAsync(async (req, res) => {
     await sendAuthCookies(req, res, req.user.id)
-    res.sendStatus(httpStatus.OK)
+    res.status(httpStatus.OK).send(req.user)
 })
 
 export const logout = () => catchAsync(async (req, res) => {
