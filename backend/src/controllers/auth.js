@@ -15,16 +15,7 @@ const sendAuthCookies = async (req, res, userId) => {
         accessCookieOptions)
 }
 
-export const localLogin = () => catchAsync(async (req, res) => {
-    const { username, email, password } = req.body
-
-    const user = await AuthService(req.db).localLogin(username, email, password)
-
-    await sendAuthCookies(req, res, user.id)
-    res.sendStatus(httpStatus.OK)
-})
-
-export const googleLogin = () => catchAsync(async (req, res) => {
+export const loginSuccess = () => catchAsync(async (req, res) => {
     await sendAuthCookies(req, res, req.user.id)
     res.sendStatus(httpStatus.OK)
 })
