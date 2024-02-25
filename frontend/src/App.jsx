@@ -4,6 +4,7 @@ import { AnimatePresence } from 'framer-motion'
 import SearchPage from './components/pages/SearchPage';
 import AuthPage from './components/pages/AuthPage';
 import RequireAuth from './components/common/RequireAuth';
+import AuthCallbackPage from './components/pages/AuthCallbackPage';
 
 function App() {
   const location = useLocation();
@@ -14,6 +15,7 @@ function App() {
           <Routes location={location} key={location.key}>
 
             <Route path="/auth" element={<AuthPage />} />
+            <Route path="/auth/callback" element={<AuthCallbackPage />} />
             <Route path="/search" element={<SearchPage />} />
             <Route path="/search/:id" element={<RecipeViewPage />} />
 

@@ -52,6 +52,11 @@ const AuthPage = () => {
                 .catch(err => setErrors({response: err.data.message}))
     }
 
+    const handleGoogle = async (e) => {
+        e.preventDefault()
+        window.location.href = 'http://localhost:3000/auth/google'
+    }
+
     return (
         <div className='auth-page'>
             <form onSubmit={handleSubmit}>
@@ -83,6 +88,8 @@ const AuthPage = () => {
 
                 <input disabled={isLoading} type="submit" value={authState} />
 
+                <button onClick={handleGoogle}>Continue with Google</button>
+
                 <span className='auth-state-message'>
                     {authState == 'register'
                         ? "Already have an account"
@@ -90,7 +97,6 @@ const AuthPage = () => {
                     }
                     ? Click <span onClick={toggleAuthState}>here</span>.
                 </span>
-
 
                 {errors.response && <span className='error-message'>{errors.response}</span>}
             </form>

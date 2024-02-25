@@ -1,6 +1,6 @@
 import { Router } from "express"
 import { useDB } from "../middleware/mysql2.js"
-import { loginSuccess, logout } from "../controllers/auth.js"
+import { loginSuccess, logout, oauthSuccess } from "../controllers/auth.js"
 import { localLoginValidation } from "../validation/auth.js"
 import { validate } from "../middleware/validate.js"
 import { usePassport } from "../config/passport.js"
@@ -13,6 +13,6 @@ router.post('/local', validate(localLoginValidation), useDB(), usePassport('loca
 router.post('/logout', protect(), useDB(), logout())
 
 router.get('/google', usePassport('google', { scope: ['email', 'profile']}))
-router.get('/google/callback', useDB(), usePassport('google'), loginSuccess())
+router.get('/google/callback', useDB(), usePassport('google'), oauthSuccess())
 
 export default router

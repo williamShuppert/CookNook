@@ -20,6 +20,12 @@ export const loginSuccess = () => catchAsync(async (req, res) => {
     res.status(httpStatus.OK).send(req.user)
 })
 
+export const oauthSuccess = () => catchAsync(async (req, res) => {
+    await sendAuthCookies(req, res, req.user.id)
+    res.status(httpStatus.OK)
+    res.redirect(`http://localhost:5173/CookNook/#/auth/callback?user=${JSON.stringify(req.user)}`)
+})
+
 export const logout = () => catchAsync(async (req, res) => {
     // TODO: invalidate refresh token
     res.clearCookie(refreshTokenName, refreshCookieOptions)
