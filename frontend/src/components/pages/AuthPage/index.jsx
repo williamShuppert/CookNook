@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import { useLoginMutation } from '../../../redux/slices/authApiSlice'
+import { useLoginMutation, useRegisterMutation } from '../../../redux/slices/authApiSlice'
 import { setUser } from '../../../redux/slices/authSlice'
 import './style.scss'
 import { useState } from 'react'
@@ -9,10 +9,12 @@ const AuthPage = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const [login, { isLoading }] = useLoginMutation()
+    const [register] = useRegisterMutation()
 
     const [authState, setAuthState] = useState('login')
     const [errors, setErrors] = useState({})
     const [username, setUsername] = useState('')
+    const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
 
@@ -34,12 +36,20 @@ const AuthPage = () => {
         if (Object.keys(errors).length > 0)
             return setErrors(errors)
 
-        login({ username, password }).unwrap()
-            .then(res => {
-                dispatch(setUser(res))
-                navigate('/')
-            })
-            .catch(_ => setErrors({response: 'Incorrect login' }))
+        if (authState == 'login')
+            login({ username, password }).unwrap()
+                .then(user => {
+                    dispatch(setUser(user))
+                    navigate('/')
+                })
+                .catch(_ => setErrors({response: 'Incorrect login' }))
+        else if (authState == 'register')
+            register({ username, email: email == '' ? null : email, password }).unwrap()
+                .then(user => {
+                    dispatch(setUser(user))
+                    navigate('/')
+                })
+                .catch(err => setErrors({response: err.data.message}))
     }
 
     return (
@@ -52,6 +62,16 @@ const AuthPage = () => {
                         {errors.username}
                     </span>}
                 </div>
+
+                {authState=='register' &&
+                    <div className='input-group'>
+                        <label htmlFor="email">Email</label>
+                        <input id="email" name="email" type="text" value={email} onChange={e => setEmail(e.target.value)}/>
+                        {errors.username && <span className="error-message">
+                            {errors.email}
+                        </span>}
+                    </div>
+                }
 
                 <div className='input-group'>
                     <label htmlFor="password">Password</label>
