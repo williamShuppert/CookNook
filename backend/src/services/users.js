@@ -31,7 +31,7 @@ export const UsersService = (db) => ({
         if (!correctPassword) throw new ApiError(httpStatus.UNAUTHORIZED, 'incorrect password')
 
         const hashed = await bcrypt.hash(newPassword, 12)
-        const emailVerified = email == user.email && user.emailVerified
+        const emailVerified = email == user.email && user.emailVerified && user.email !== null
 
         await db.execute('UPDATE users SET email = ?, username = ?, password = ?, emailVerified = ?, lastUpdated = CURRENT_TIMESTAMP WHERE id = ?', [email, username, hashed, emailVerified, id])
             .catch(error => {
