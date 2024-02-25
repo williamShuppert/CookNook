@@ -14,6 +14,8 @@ import { corsOptions } from './config/cors.js'
 import { httpsOptions } from './config/https.js'
 import { fileURLToPath } from 'url'
 import path, { dirname } from 'path'
+import { ApiError } from './utils/apiError.js'
+import httpStatus from 'http-status'
 
 const port = process.env.PORT
 const app = express()
@@ -30,6 +32,7 @@ app.use(passport.initialize())
 // Routes
 app.use('/api/users', usersRoute)
 app.use('/api/auth', authRoute)
+app.use('/api', () => {throw new ApiError(httpStatus.NOT_FOUND)})
 
 // Serve static react app
 const __filename = fileURLToPath(import.meta.url)
