@@ -1,10 +1,10 @@
-import { accessTokenName } from "../config/cookies.js"
+import { cookieConfig } from "../config/cookies.js"
 import JWT from 'jsonwebtoken'
 import { ApiError } from "../utils/apiError.js"
 import httpStatus from "http-status"
 
 export const requireAuth = () => (req, res, next) => {
-    const accessJWT = req.cookies[accessTokenName]
+    const accessJWT = req.cookies[cookieConfig.access.name]
 
     if (!accessJWT)
         throw new ApiError(httpStatus.UNAUTHORIZED)

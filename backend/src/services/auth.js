@@ -1,6 +1,6 @@
 import JWT from 'jsonwebtoken'
 import { v4 as UUID } from 'uuid'
-import { accessTokenLifetime, refreshTokenLifetime } from '../config/cookies.js'
+import { cookieConfig } from '../config/cookies.js'
 import { UsersService } from './users.js'
 import { ApiError } from '../utils/apiError.js'
 import httpStatus from 'http-status'
@@ -14,14 +14,14 @@ export const AuthService = (db) => ({
         return JWT.sign(
             { userId, tokenId },
             process.env.REFRESH_JWT_SECRET,
-            { expiresIn: refreshTokenLifetime / 1000 })
+            { expiresIn: cookieConfig.refresh.options.maxAge / 1000 })
     },
 
     createAccessToken: (userId) => {
         return JWT.sign(
             { userId },
             process.env.ACCESS_JWT_SECRET,
-            { expiresIn: accessTokenLifetime / 1000 })
+            { expiresIn: cookieConfig.access.options.maxAge / 1000 })
     },
 
     validateRefreshToken: async (decodedToken) => {
