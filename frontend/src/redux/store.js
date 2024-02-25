@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
 import recipeReducer from './slices/searchPageSlice'
-import authReducer from './slices/authSlice'
+import authReducer, { authMiddleware } from './slices/authSlice'
 import { apiSlice } from './slices/apiSlice'
 
 export default configureStore({
@@ -10,6 +10,7 @@ export default configureStore({
         recipes: recipeReducer,
     },
     middleware: getDefault => getDefault()
-        .concat(apiSlice.middleware),
+        .concat(apiSlice.middleware)
+        .concat(authMiddleware),
     devTools: true
 })
