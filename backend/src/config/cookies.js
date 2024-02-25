@@ -3,7 +3,7 @@ import ms from 'ms'
 export const refreshTokenName = 'refresh'
 export const refreshTokenLifetime = ms('2d')
 export const refreshCookieOptions = {
-    path: '/auth/refresh',
+    path: '/api/auth/refresh',
     maxAge: refreshTokenLifetime,
     httpOnly: true,
     secure: true,
@@ -11,7 +11,7 @@ export const refreshCookieOptions = {
 }
 
 export const accessTokenName = 'access'
-export const accessTokenLifetime = ms('5m')
+export const accessTokenLifetime = ms('10s')
 export const accessCookieOptions = {
     maxAge: accessTokenLifetime,
     httpOnly: true,
