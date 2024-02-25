@@ -13,7 +13,7 @@ export const protect = () => (req, res, next) => {
         const decoded = JWT.verify(accessJWT, process.env.ACCESS_JWT_SECRET)
         req.user = { id: decoded.userId }
     } catch {
-        throw new ApiError(httpStatus.FORBIDDEN)
+        throw new ApiError(httpStatus.UNAUTHORIZED)
     }
 
     next()
