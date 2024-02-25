@@ -24,7 +24,7 @@ export const UsersService = (db) => ({
 
         // Keep previous values if new values are empty
         username = username ?? user.username
-        email = email ?? user.email
+        email = email === undefined ? user.email : email
         newPassword = newPassword ?? password
 
         const correctPassword = user.password ? await bcrypt.compare(password, user.password) : true

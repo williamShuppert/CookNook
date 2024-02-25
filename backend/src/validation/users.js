@@ -14,7 +14,7 @@ export const createUserValidation = Joi.object().keys({
 
 export const updateUserValidation = Joi.object().keys({
     body: Joi.object().keys({
-        email: validEmail,
+        email: validEmail.allow('null'),
         username: validUsername,
         password: Joi.string().required(),
         newPassword: validPassword

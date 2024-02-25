@@ -8,7 +8,7 @@ import { ApiError } from '../utils/apiError.js'
 export const createUser = () => catchAsync(async (req, res) => {
     const { username, email, password } = req.body
 
-    const id = await UsersService(req.db).createUser(username, email, password)
+    const id = await UsersService(req.db).createUser(username, email ?? null, password)
 
     res.cookie(
         refreshTokenName,
@@ -33,7 +33,7 @@ export const updateUser = () => catchAsync(async (req, res) => {
 
     if (req.user.id != id) throw new ApiError(httpStatus.FORBIDDEN)
 
-    await UsersService(req.db).updateUser(id, username, email, newPassword, password)
+    await UsersService(req.db).updateUser(id, username, email == 'null' ? null : email, newPassword, password)
 
     res.sendStatus(httpStatus.OK)
 })
