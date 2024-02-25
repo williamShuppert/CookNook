@@ -1,13 +1,13 @@
 import { Routes, Route, useLocation, Navigate } from 'react-router-dom'
 import RecipeViewPage from './components/pages/RecipeViewPage'
 import { AnimatePresence } from 'framer-motion'
-import SearchPage from './components/pages/SearchPage';
-import AuthPage from './components/pages/AuthPage';
-import RequireAuth from './components/common/RequireAuth';
-import AuthCallbackPage from './components/pages/AuthCallbackPage';
+import SearchPage from './components/pages/SearchPage'
+import AuthPage from './components/pages/AuthPage'
+import RequireAuth from './components/common/RequireAuth'
+import AuthCallbackPage from './components/pages/AuthCallbackPage'
 
 function App() {
-  const location = useLocation();
+  const location = useLocation()
 
   return (
     <div className="pages">

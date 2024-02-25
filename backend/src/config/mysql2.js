@@ -18,12 +18,12 @@ export const useConnection = (conn) => ({
     
     query: async (query, expectOne) => {
         const res = (await conn.execute(query))[0]
-        return expectOne ? res[0] : res;
+        return expectOne ? res[0] : res
     },
     
     execute: async (query, values, expectOne) => {
         const res = (await conn.execute(query, values))[0]
-        return expectOne ? res[0] : res;
+        return expectOne ? res[0] : res
     },
 
     transaction: async (func) => {

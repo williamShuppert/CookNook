@@ -1,4 +1,4 @@
-import httpStatus from "http-status";
+import httpStatus from "http-status"
 
 export const getDuplicateEntryKey = (err) => {
     if (err.errno == 1062)

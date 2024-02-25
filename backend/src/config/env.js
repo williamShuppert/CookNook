@@ -16,14 +16,17 @@ dotenv.config({ path: envFileName })
 
 const envVarsSchema = Joi.object().keys({
     NODE_ENV: Joi.string().valid('dev', 'stage', 'prod').required(),
+    CORS_ORIGIN: Joi.string(),
     PORT: Joi.number().default(3000),
     DB_NAME: Joi.string().required(),
     DB_USERNAME: Joi.string().required(),
     DB_PASSWORD: Joi.string().required(),
     ACCESS_JWT_SECRET: Joi.string().min(64).required(),
     REFRESH_JWT_SECRET: Joi.string().min(64).required(),
+    OAUTH_SUCCESS_REDIRECT_URL: Joi.string().required(),
     GOOGLE_CLIENT_ID: Joi.string().required(),
-    GOOGLE_CLIENT_SECRET: Joi.string().required()
+    GOOGLE_CLIENT_SECRET: Joi.string().required(),
+    GOOGLE_CLIENT_CALLBACK_URL: Joi.string().required()
 }).unknown()
 
 const { error } = envVarsSchema.prefs({ errors: { label: 'key' } }).validate(process.env, {abortEarly: false})

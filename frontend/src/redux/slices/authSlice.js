@@ -12,7 +12,7 @@ const authSlice = createSlice({
 })
 
 export const authMiddleware = (store) => (next) => (action) => {
-    const result = next(action);
+    const result = next(action)
 
     if (authSlice.actions.setUser.match(action))
         localStorage.setItem('user', JSON.stringify(store.getState().auth))

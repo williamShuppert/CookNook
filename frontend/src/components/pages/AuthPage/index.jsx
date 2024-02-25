@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom'
-import { useLoginMutation, useRegisterMutation } from '../../../redux/slices/authApiSlice'
-import { setUser } from '../../../redux/slices/authSlice'
+import { useLoginMutation, useRegisterMutation } from '../../../redux/slices/authApiSlice.js'
+import { setUser } from '../../../redux/slices/authSlice.js'
 import './style.scss'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
@@ -54,7 +54,15 @@ const AuthPage = () => {
 
     const handleGoogle = async (e) => {
         e.preventDefault()
-        window.location.href = 'http://localhost:3000/auth/google'
+        window.location.href = 'https://localhost:3000/api/auth/google'
+    }
+
+    const handleRefresh = async () => {
+        fetch('https://127.0.0.1:3000/api/auth/refresh', {
+            method: 'POST',
+            credentials: 'include'
+        }).then(res => res.json()).then(res => console.log(res))
+        .catch(err => console.log(err))
     }
 
     return (
@@ -100,6 +108,8 @@ const AuthPage = () => {
 
                 {errors.response && <span className='error-message'>{errors.response}</span>}
             </form>
+
+            <button onClick={handleRefresh}>Refresh</button>
         </div>
     )
 }

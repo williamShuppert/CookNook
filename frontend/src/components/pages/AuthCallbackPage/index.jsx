@@ -4,7 +4,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 import { removeUser, setUser } from '../../../redux/slices/authSlice'
 
 const AuthCallbackPage = () => {
-  const [searchParams] = useSearchParams();
+  const [searchParams] = useSearchParams()
   const navigate = useNavigate()
   const dispatch = useDispatch()
 

@@ -4,7 +4,7 @@ import { AuthService } from '../services/auth.js'
 export default new Strategy({
         clientID:     process.env.GOOGLE_CLIENT_ID,
         clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-        callbackURL: `http://localhost:${process.env.PORT}/auth/google/callback`,
+        callbackURL: process.env.GOOGLE_CLIENT_CALLBACK_URL,
         passReqToCallback: true
     }, (req, accessToken, refreshToken, profile, done) => {
         AuthService(req.db).googleLogin(profile)

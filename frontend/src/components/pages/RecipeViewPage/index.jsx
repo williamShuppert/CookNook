@@ -25,7 +25,7 @@ const RecipeViewPage = () => {
     useEffect(() => {
 
         const getRecipe = async () => {
-            if (recipe?.id == desiredId) return;
+            if (recipe?.id == desiredId) return
             try {
                 const foundRecipe = await dispatch(api.getRecipe(desiredId)).unwrap()
                 if (!foundRecipe)
@@ -55,7 +55,7 @@ const RecipeViewPage = () => {
         pageRef.current.style.position = 'absolute' // Allow scrolling on recipe view and moves component to top of page
 
         if (style.x == 0) // Finished animated in
-            window.scrollTo(0,0); // Snap to top of page
+            window.scrollTo(0,0) // Snap to top of page
         else // Finished animating out
             pageRef.current.style.display = 'none' // Prevent any visual errors
     }

@@ -3,7 +3,7 @@ import { removeUser, setUser } from './authSlice'
 import httpStatus from 'http-status'
 
 const baseQuery = fetchBaseQuery({
-    baseUrl: 'http://localhost:3000',
+    baseUrl: 'https://127.0.0.1:3000/api',
     credentials: 'include'
 })
 

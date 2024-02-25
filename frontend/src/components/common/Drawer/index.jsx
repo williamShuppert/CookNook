@@ -2,12 +2,9 @@ import "./style.scss"
 import xmarkSolid from '/src/assets/icons/xmark-solid.svg'
 import SectionHeader from "../SectionHeader"
 import { AnimatePresence, motion } from 'framer-motion'
-import ReactDOM from 'react-dom';
-import { useRef } from "react";
-import { useClickedOutside } from "../../../hooks/clicked-outside";
-
-
-
+import ReactDOM from 'react-dom'
+import { useRef } from "react"
+import { useClickedOutside } from "../../../hooks/clicked-outside"
 
 const Drawer = ({name, children, isOpen, handleClose}) => {
 
@@ -37,7 +34,7 @@ const Drawer = ({name, children, isOpen, handleClose}) => {
                 {children}
             </motion.div>}
         </AnimatePresence>, document.getElementById('drawers')
-        )
+    )
 }
 
 export default Drawer
