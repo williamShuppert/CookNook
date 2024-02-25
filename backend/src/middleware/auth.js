@@ -23,7 +23,7 @@ export const requireAuth = () => (req, res, next) => {
 }
 
 export const requireRoles = (requiredRoles) => [requireAuth(), (req, res, next) => {
-    const hasAllRoles = requiredRoles.every(role => req.roles.includes(role))
+    const hasAllRoles = requiredRoles.every(role => req.user.roles.includes(role))
 
     if (!hasAllRoles)
         throw new ApiError(httpStatus.FORBIDDEN, 'Insufficient permissions')
