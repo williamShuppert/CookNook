@@ -34,17 +34,25 @@ module.exports = {
           updatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
           UNIQUE (userId, providerId),
           PRIMARY KEY (providerId, providerUserId),
-          FOREIGN KEY (userId) REFERENCES users(id),
+          FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE,
           FOREIGN KEY (providerId) REFERENCES oauth_providers(id)
         );`, {transaction: t}),
+        queryInterface.sequelize.query(`
+          CREATE TABLE refresh_tokens (
+            id char(36) NOT NULL PRIMARY KEY,
+            userId char(36) NOT NULL,
+            createdAt datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE
+          );`, {transaction: t}),
       ]))
   },
 
   async down (queryInterface, Sequelize) {
     return queryInterface.sequelize.transaction(t => Promise.all([
+      queryInterface.dropTable('refresh_tokens', {transaction: t}),
       queryInterface.dropTable('oauth', {transaction: t}),
       queryInterface.dropTable('users', {transaction: t}),
-      queryInterface.dropTable('oauth_providers', {transaction: t})
+      queryInterface.dropTable('oauth_providers', {transaction: t}),
     ]))
   }
 };

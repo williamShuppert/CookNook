@@ -1,4 +1,5 @@
 import JWT from 'jsonwebtoken'
+import { v4 as UUID } from 'uuid'
 import { accessTokenLifetime, refreshTokenLifetime } from '../config/cookies.js'
 import { UsersService } from './users.js'
 import { ApiError } from '../utils/apiError.js'
@@ -7,9 +8,11 @@ import bcrypt from 'bcrypt'
 
 export const AuthService = (db) => ({
     createRefreshToken: async (userId) => {
-        // TODO: Add to database
+        const tokenId = UUID()
+        await db.execute('INSERT INTO refresh_tokens (id, userId) VALUES (?,?)', [tokenId, userId])
+
         return JWT.sign(
-            { userId },
+            { userId, tokenId },
             process.env.REFRESH_JWT_SECRET,
             { expiresIn: refreshTokenLifetime / 1000 })
     },
@@ -21,8 +24,15 @@ export const AuthService = (db) => ({
             { expiresIn: accessTokenLifetime / 1000 })
     },
 
-    validateRefreshToken: (token) => {
-        // TODO: Check database for valid token, then remove if found
+    validateRefreshToken: async (decodedToken) => {
+        const res = (await db.conn.execute('DELETE FROM refresh_tokens WHERE id = ?', [decodedToken.tokenId]))[0]
+
+        if (res.affectedRows != 1)
+            throw new ApiError(httpStatus.UNAUTHORIZED)
+    },
+
+    removeRefreshTokenByUser: async (userId) => {
+        await db.execute('DELETE FROM refresh_tokens WHERE userId = ?', [userId])
     },
 
     localLogin: async (username, email, password) => {

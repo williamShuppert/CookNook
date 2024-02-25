@@ -29,7 +29,7 @@ export const oauthSuccess = () => catchAsync(async (req, res) => {
 })
 
 export const logout = () => catchAsync(async (req, res) => {
-    // TODO: invalidate refresh token
+    await AuthService(req.db).removeRefreshTokenByUser(req.user.id)
     res.clearCookie(refreshTokenName, refreshCookieOptions)
         .clearCookie(accessTokenName, accessCookieOptions)
         .sendStatus(httpStatus.OK)
@@ -43,13 +43,14 @@ export const refresh = () => catchAsync(async (req, res) => {
     
     try {
         const decoded = JWT.verify(refreshJWT, process.env.REFRESH_JWT_SECRET)
+        await AuthService(req.db).validateRefreshToken(decoded)
+
         req.user = { id: decoded.userId }
     } catch (err) {
         console.log(err)
         throw new ApiError(httpStatus.UNAUTHORIZED)
     }
 
-    // TODO: check database for revoked tokens
 
     await sendAuthCookies(req, res, req.user.id)
     res.status(httpStatus.OK).send(req.user)
