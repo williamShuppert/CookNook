@@ -1,20 +1,20 @@
 import httpStatus from 'http-status'
-import { accessCookieOptions, accessTokenName, refreshCookieOptions, refreshTokenName } from '../config/cookies.js'
+import { cookieConfig } from '../config/cookies.js'
 import { catchAsync } from '../utils/catchAsync.js'
 import { AuthService } from '../services/auth.js'
 import { ApiError } from '../utils/apiError.js'
 import JWT from 'jsonwebtoken'
 
-const sendAuthCookies = async (req, res, userId) => {
+export const sendAuthCookies = async (req, res, userId) => {
     res.cookie(
-        refreshTokenName,
+        cookieConfig.refresh.name,
         await AuthService(req.db).createRefreshToken(userId),
-        refreshCookieOptions)
+        cookieConfig.refresh.options)
 
     res.cookie(
-        accessTokenName,
+        cookieConfig.access.name,
         await AuthService(req.db).createAccessToken(userId),
-        accessCookieOptions)
+        cookieConfig.access.options)
 }
 
 export const loginSuccess = () => catchAsync(async (req, res) => {
@@ -30,13 +30,13 @@ export const oauthSuccess = () => catchAsync(async (req, res) => {
 
 export const logout = () => catchAsync(async (req, res) => {
     await AuthService(req.db).removeRefreshTokenByUser(req.user.id)
-    res.clearCookie(refreshTokenName, refreshCookieOptions)
-        .clearCookie(accessTokenName, accessCookieOptions)
+    res.clearCookie(cookieConfig.refresh.name, cookieConfig.refresh.options)
+        .clearCookie(cookieConfig.access.name, cookieConfig.access.options)
         .sendStatus(httpStatus.OK)
 })
 
 export const refresh = () => catchAsync(async (req, res) => {
-    const refreshJWT = req.cookies[refreshTokenName]
+    const refreshJWT = req.cookies[cookieConfig.refresh.name]
     
     if (!refreshJWT)
         throw new ApiError(httpStatus.UNAUTHORIZED)

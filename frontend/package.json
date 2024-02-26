@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.1",
+    "fraction.js": "^4.3.7",
     "framer-motion": "^11.0.5",
     "http-status": "^1.7.4",
     "normalize.css": "^8.0.1",
