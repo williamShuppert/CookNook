@@ -9,6 +9,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { api, recipeUpdated, selectRecipeById } from '../../../redux/slices/searchPageSlice'
+import Ingredient from '../../common/Ingredient'
 
 const RecipeViewPage = () => {
     const dispatch = useDispatch()
@@ -119,6 +120,9 @@ const RecipeViewPage = () => {
                 </p>
 
                 <SectionHeader title="ingredients" />
+
+                <Ingredient />
+                <Ingredient />
             </div>
         </motion.div>
     )

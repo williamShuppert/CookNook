@@ -44,11 +44,11 @@ label {
 }
 
 input[type=text],
-input[type=password] {
+input[type=password],
+.ingredient {
     padding: 5px 10px;
     background-color: var(--bg-color-2);
     border: none;
-    // font-weight: 300;
     color: black;
     border-radius: var(--border-radius);
 
