@@ -104,6 +104,8 @@ export const extractMeasurements = (string) => {
     let tokens = []
     const words = string.split(' ')
     for (let i = 0; i < words.length; i++) {
+        if (words[i] == '') continue
+
         const token = {
             isMeasurement: false,
             string: i != 0 ? ' ' : '',
