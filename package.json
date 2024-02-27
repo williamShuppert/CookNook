@@ -5,10 +5,14 @@
   "main": "/backend/src/app.js",
   "scripts": {
     "prep-backend": "cd backend && npm i",
-    "prep-frontend": "cd frontend && npm i && npm run build",
-    "build": "npm run prep-frontend && npm run prep-backend",
-    "start:dev": "cd backend && npm run start:dev",
-    "start:prod": "cd backend && npm run start:prod"
+    "prep-frontend": "cd frontend && npm i",
+    "prep": "npm run prep-frontend && npm run prep-backend",
+    
+    "build:dev": "cd frontend && npm run build:dev",
+    "build": "cd frontend && npm run build",
+
+    "start:dev": "npm run build:dev && cd backend && npm run start:dev",
+    "start": "npm run build && cd backend && npm run start:prod"
   },
   "repository": {
     "type": "git",

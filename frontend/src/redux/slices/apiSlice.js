@@ -2,8 +2,11 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { removeUser, setUser } from './authSlice'
 import httpStatus from 'http-status'
 
+console.log(import.meta.env.MODE)
+console.log('Base API URL: ' + import.meta.env.VITE_API_URL)
+
 const baseQuery = fetchBaseQuery({
-    baseUrl: 'https://127.0.0.1:3000/api',
+    baseUrl: import.meta.env.REACT_APP_API_URL,
     credentials: 'include'
 })
 
