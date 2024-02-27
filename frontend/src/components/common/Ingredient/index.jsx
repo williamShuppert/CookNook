@@ -1,5 +1,4 @@
 import pluralize from 'pluralize'
-import { useClickedOutside } from '../../../hooks/clicked-outside'
 import { UnitTypesAffectedByServingSize, extractMeasurements } from '../../../utils/ingredient'
 import './style.scss'
 import { useRef, useState } from 'react'
@@ -11,15 +10,9 @@ const Ingredient = ({ multiplier, value, onChange, disableEditing }) => {
     multiplier = multiplier == 0 ? 1 : multiplier
     const inputRef = useRef()
     const [isEditing, setIsEditing] = useState(false)
-    useClickedOutside(inputRef, () => setIsEditing(false))
-
-    const handleKeyDown = (event) => {
-        if (isEditing && event.key === 'Enter')
-            setIsEditing(false)
-    }
 
     const handleMeasurementClick = (e, token) => {
-        e.stopPropagation()
+        // e.stopPropagation()
         console.log(token)
     }
 
@@ -30,11 +23,12 @@ const Ingredient = ({ multiplier, value, onChange, disableEditing }) => {
     }
 
     if (isEditing) return (
-        <input ref={inputRef} className="ingredient-input" autoFocus type="text" value={value} onChange={onChange} onKeyDown={handleKeyDown} />
+        <input ref={inputRef} className="ingredient-input" autoFocus type="text" value={value} onChange={onChange} onBlur={() => setIsEditing(false)} />
     )
 
     return (
         <div className="ingredient" onClick={() => !disableEditing && setIsEditing(true)} >
+            <input type="text" onFocus={() => setIsEditing(true)} />
             {value == '' ? 'tap to add ingredient' : (
                 extractMeasurements(value).map((token, i) => (
                     <span key={i}>
