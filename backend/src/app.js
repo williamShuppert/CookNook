@@ -44,5 +44,8 @@ app.get('*', (req, res) => res.sendFile(path.join(__dirname, '../../frontend/dis
 app.use(errorConverter)
 app.use(errorHandler)
 
-https.createServer(httpsOptions, app)
-    .listen(port, () => console.log(`listening on port ${port}`))
+if (process.env.NODE_ENV == 'dev') // Use self signed certification in dev
+    https.createServer(httpsOptions, app)
+        .listen(port, () => console.log(`listening on port ${port}`))
+else // SSL is handled by hosting platform
+    app.listen(port, () => console.log(`listening on port ${port}`))
