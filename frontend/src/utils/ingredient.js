@@ -11,13 +11,14 @@ pluralize.addUncountableRule('kg')
 pluralize.addUncountableRule('qt')
 pluralize.addUncountableRule('pt')
 
+// Units = { unitType: { unitHeader: [alias] } }
 export const Units = {
     "volume": {
       "cup": ["cup", "cups"],
       "teaspoon": ["teaspoon", "teaspoons", "tsp"],
-      "tablespoon": ["tablespoon", "tablespoons", "tbsp"],
+      "tablespoon": ["tablespoon", "tablespoons", "tbsp", "tbs"],
       "fluid ounce": ["fluid ounce", "fluid ounces", "fl oz", "fl-oz"],
-      "pint": ["pint", "pints", "pt"],
+      "pint": ["pint", "pints", "pt", "pnt"],
       "quart": ["quart", "quarts", "qt"],
       "gallon": ["gallon", "gallons", "gal"],
       "milliliter": ["milliliter", "milliliters", "ml"],
@@ -76,11 +77,11 @@ export const UnitTypesAffectedByServingSize = [
 
 export const getUnitType = (str) => {
     for (const unitType in Units) {
-        const units = Units[unitType]
-        for (const unit in units) {
-            const aliases = units[unit]
+        const unitHeaders = Units[unitType]
+        for (const unitHeader in unitHeaders) {
+            const aliases = unitHeaders[unitHeader]
             if (aliases.includes(str.toLowerCase()))
-                return unitType
+                return { unitType, unitHeader }
         }
     }
     return null
@@ -112,6 +113,7 @@ export const extractMeasurements = (string) => {
             value: null,
             unit: null,
             unitType: null,
+            unitHeader: null
         }
           
         if (i < words.length - 2 && getNumFormat(words[i]) === 'num' && getNumFormat(words[i + 1]) === 'frac' && getUnitType(words[i + 2])) {
@@ -119,21 +121,24 @@ export const extractMeasurements = (string) => {
             token.string += `${words[i]} ${words[i + 1]} ${words[i + 2]}`
             token.value = new Fraction(`${words[i]} ${words[i + 1]}`)
             token.unit = words[i + 2]
-            token.unitType = getUnitType(words[i + 2])
+            token.unitType = getUnitType(words[i + 2]).unitType
+            token.unitHeader = getUnitType(words[i + 2]).unitHeader
             i += 2
         } else if (i < words.length - 1 && getNumFormat(words[i]) === 'num' && getUnitType(words[i + 1])) {
             // Check for int and unit
             token.string += `${words[i]} ${words[i + 1]}`
             token.value = new Fraction(words[i])
             token.unit = words[i + 1]
-            token.unitType = getUnitType(words[i + 1])
+            token.unitType = getUnitType(words[i + 1]).unitType
+            token.unitHeader = getUnitType(words[i + 1]).unitHeader
             i += 1
         } else if (i < words.length - 1 && getNumFormat(words[i]) === 'frac' && getUnitType(words[i + 1])) {
             // Check for frac and unit
             token.string += `${words[i]} ${words[i + 1]}`
             token.value = new Fraction(words[i])
             token.unit = words[i + 1]
-            token.unitType = getUnitType(words[i + 1])
+            token.unitType = getUnitType(words[i + 1]).unitType
+            token.unitHeader = getUnitType(words[i + 1]).unitHeader
             i += 1
         } else if (getNumFormat(words[i]) === 'num' || getNumFormat(words[i]) === 'frac') {
             // Check for just int or frac
