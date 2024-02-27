@@ -6,7 +6,7 @@ console.log(import.meta.env.MODE)
 console.log('Base API URL: ' + import.meta.env.VITE_API_URL)
 
 const baseQuery = fetchBaseQuery({
-    baseUrl: import.meta.env.REACT_APP_API_URL,
+    baseUrl: import.meta.env.VITE_API_URL,
     credentials: 'include'
 })
 

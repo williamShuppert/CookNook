@@ -54,11 +54,11 @@ const AuthPage = () => {
 
     const handleGoogle = async (e) => {
         e.preventDefault()
-        window.location.href = 'https://localhost:3000/api/auth/google'
+        window.location.href = `${import.meta.env.VITE_API_URL}/auth/google`
     }
 
     const handleRefresh = async () => {
-        fetch('https://127.0.0.1:3000/api/auth/refresh', {
+        fetch(`${import.meta.env.VITE_API_URL}/auth/refresh`, {
             method: 'POST',
             credentials: 'include'
         }).then(res => res.json()).then(res => console.log(res))
