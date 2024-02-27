@@ -9,8 +9,13 @@ if (!NODE_ENV)
 if (!['dev', 'stage', 'prod'].includes(NODE_ENV))
     throw new Error("NODE_ENV must be one of the following: 'dev', 'stage', 'prod'")
 
-const envFileName = `.env.${NODE_ENV}`
-if (!fs.existsSync(envFileName)) throw new Error(`Missing ${envFileName} file`)
+let envFileName = `.env.${NODE_ENV}`
+if (!fs.existsSync(envFileName)) {
+    if (!fs.existsSync('.env'))
+        throw new Error(`Missing ${envFileName} file`)
+
+    envFileName = '.env' // Default to .env file
+}
 
 dotenv.config({ path: envFileName })
 
