@@ -5,9 +5,9 @@
   "main": "./src/app.js",
   "type": "module",
   "scripts": {
-    "start:dev": "cross-env NODE_ENV=dev nodemon ./src/index.js",
-    "start:stage": "cross-env NODE_ENV=stage nodemon ./src/index.js",
-    "start:prod": "cross-env NODE_ENV=prod nodemon ./src/index.js",
+    "start:dev": "cross-env NODE_ENV=dev nodemon ./src/app.js",
+    "start:stage": "cross-env NODE_ENV=stage nodemon ./src/app.js",
+    "start:prod": "cross-env NODE_ENV=prod node ./src/app.js",
     "db:migrate:test": "cross-env NODE_ENV=test sequelize db:migrate",
     "db:migrate:dev": " cross-env NODE_ENV=dev  sequelize db:migrate",
     "db:migrate:prod": "cross-env NODE_ENV=prod sequelize db:migrate",

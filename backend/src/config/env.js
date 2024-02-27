@@ -16,7 +16,7 @@ dotenv.config({ path: envFileName })
 
 const envVarsSchema = Joi.object().keys({
     NODE_ENV: Joi.string().valid('dev', 'stage', 'prod').required(),
-    CORS_ORIGIN: Joi.string(),
+    CORS_ORIGIN: Joi.string().allow(''),
     PORT: Joi.number().default(3000),
     DB_NAME: Joi.string().required(),
     DB_USERNAME: Joi.string().required(),
