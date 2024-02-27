@@ -28,7 +28,7 @@ const Ingredient = ({ multiplier, value, onChange, disableEditing }) => {
 
     return (
         <div className="ingredient" onClick={() => !disableEditing && setIsEditing(true)} >
-            <input type="text" onFocus={() => setIsEditing(true)} />
+            { !disableEditing && <input type="text" onFocus={() => setIsEditing(true)} />}
             {value == '' ? 'tap to add ingredient' : (
                 extractMeasurements(value).map((token, i) => (
                     <span key={i}>
