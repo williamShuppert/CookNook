@@ -1,0 +1,21 @@
+{
+  "name": "cook-nook",
+  "version": "1.0.0",
+  "description": "",
+  "main": "/backend/src/app.js",
+  "scripts": {
+    "prep-backend": "cd backend && npm i",
+    "prep-frontend": "cd frontend && npm i && npm run build",
+    "build": "npm run prep-frontend && npm run prep-backend"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/williamShuppert/CookNook.git"
+  },
+  "author": "Will Shuppert",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/williamShuppert/CookNook/issues"
+  },
+  "homepage": "https://github.com/williamShuppert/CookNook#readme"
+}
