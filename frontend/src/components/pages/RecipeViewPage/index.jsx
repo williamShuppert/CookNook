@@ -126,13 +126,15 @@ const RecipeViewPage = () => {
                 <SectionHeader title="ingredients" />
                 <input type='number' placeholder='1' value={multiplier} onChange={e => setMultiplier(e.target.value)} />
 
-                {ingredients.map((value, i) => (
-                    <Ingredient key={i} multiplier={multiplier} value={value} onChange={e => setIngredients(prev => {
-                        const t = [...prev]
-                        t[i] = e.target.value
-                        return t
-                    })} />
-                ))}
+                <div style={{display: 'flex', flexDirection: 'column', gap: '5px', padding: '5px 0'}}>
+                    {ingredients.map((value, i) => (
+                        <Ingredient key={i} multiplier={multiplier} value={value} onChange={e => setIngredients(prev => {
+                            const t = [...prev]
+                            t[i] = e.target.value
+                            return t
+                        })} />
+                    ))}
+                </div>
 
                 <button className='button-circle' onClick={()=>setIngredients(prev => [...prev, ''])}>
                     <img className='icon' src={plusIcon} />

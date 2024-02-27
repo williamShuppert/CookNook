@@ -87,17 +87,38 @@ export const getUnitType = (str) => {
     return null
 }
 
-export const getNumFormat = (s) => {
+function trimSpecialCharacters(inputString) {
+    // TODO: put trimmed chars back in but don't bold them
+    const res = {
+        trimmed: inputString,
+        left: '', right: ''
+    }
+
+    if (inputString.length >= 2) {
+        if (/[,()\[\]{}'"]/.test(res.trimmed[0])) {
+            res.left = res.trimmed[0]
+            res.trimmed = res.trimmed.slice(1)
+        }
+
+        if (/[.,()\[\]{}'"]/.test(res.trimmed.slice(-1))) {
+            res.right = res.trimmed.slice(-1)
+            res.trimmed = res.trimmed.slice(0, -1)
+        }
+    }
+    return res.trimmed
+}
+
+export const getNumFormat = (str) => {
     const fractionRegex = /(?:[1-9][0-9]*|0)\/[1-9][0-9]*/
 
-    if (!isNaN(s))
+    if (!isNaN(str) && str != '')
         return "num"
-    else if (fractionRegex.test(s))
+    else if (fractionRegex.test(str))
         return "frac"
     
     return "NaN"
 }
-
+// Add the marinade ingredients (2 tablespoon of tamari and 1 tablespoon of apple cider vinegar), stir and let rest for at least 5 minutes, preferably overnight.
 export const extractMeasurements = (string) => {
     if (string == '')
         return []
@@ -106,6 +127,10 @@ export const extractMeasurements = (string) => {
     const words = string.split(' ')
     for (let i = 0; i < words.length; i++) {
         if (words[i] == '') continue
+
+        const word1 = trimSpecialCharacters(words[i])
+        const word2 = i < words.length - 1 ? trimSpecialCharacters(words[i + 1]) : null
+        const word3 = i < words.length - 2 ? trimSpecialCharacters(words[i + 2]) : null
 
         const token = {
             isMeasurement: false,
@@ -116,34 +141,35 @@ export const extractMeasurements = (string) => {
             unitHeader: null
         }
           
-        if (i < words.length - 2 && getNumFormat(words[i]) === 'num' && getNumFormat(words[i + 1]) === 'frac' && getUnitType(words[i + 2])) {
+        if (i < words.length - 2 && getNumFormat(word1) === 'num' && getNumFormat(word2) === 'frac' && getUnitType(word3)) {
            // Check for int, frac, and unit
             token.string += `${words[i]} ${words[i + 1]} ${words[i + 2]}`
-            token.value = new Fraction(`${words[i]} ${words[i + 1]}`)
-            token.unit = words[i + 2]
-            token.unitType = getUnitType(words[i + 2]).unitType
-            token.unitHeader = getUnitType(words[i + 2]).unitHeader
+            token.value = new Fraction(`${word1} ${word2}`)
+            token.unit = word3
+            token.unitType = getUnitType(word3).unitType
+            token.unitHeader = getUnitType(word3).unitHeader
             i += 2
-        } else if (i < words.length - 1 && getNumFormat(words[i]) === 'num' && getUnitType(words[i + 1])) {
+        } else if (i < words.length - 1 && getNumFormat(word1) === 'num' && getUnitType(word2)) {
             // Check for int and unit
             token.string += `${words[i]} ${words[i + 1]}`
-            token.value = new Fraction(words[i])
-            token.unit = words[i + 1]
-            token.unitType = getUnitType(words[i + 1]).unitType
-            token.unitHeader = getUnitType(words[i + 1]).unitHeader
+            token.value = new Fraction(word1)
+            token.unit = word2
+            token.unitType = getUnitType(word2).unitType
+            token.unitHeader = getUnitType(word2).unitHeader
             i += 1
-        } else if (i < words.length - 1 && getNumFormat(words[i]) === 'frac' && getUnitType(words[i + 1])) {
+        } else if (i < words.length - 1 && getNumFormat(word1) === 'frac' && getUnitType(word2)) {
             // Check for frac and unit
             token.string += `${words[i]} ${words[i + 1]}`
-            token.value = new Fraction(words[i])
-            token.unit = words[i + 1]
-            token.unitType = getUnitType(words[i + 1]).unitType
-            token.unitHeader = getUnitType(words[i + 1]).unitHeader
+            token.value = new Fraction(word1)
+            token.unit = word2
+            token.unitType = getUnitType(word2).unitType
+            token.unitHeader = getUnitType(word2).unitHeader
             i += 1
-        } else if (getNumFormat(words[i]) === 'num' || getNumFormat(words[i]) === 'frac') {
+        } else if (getNumFormat(word1) === 'num' || getNumFormat(word1) === 'frac') {
             // Check for just int or frac
             token.string += `${words[i]}`
-            token.value = new Fraction(words[i])
+            console.log(word1)
+            token.value = new Fraction(word1)
             token.unitType = "countable"
         }
 

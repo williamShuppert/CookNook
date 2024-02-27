@@ -1,8 +1,8 @@
 .ingredient {
     position: relative;
     width: 100%;
-    background-color: transparent;
     background-color: transparent !important;
+    font-weight: 300;
 
     input[type=text] {
         position: absolute;
@@ -19,4 +19,8 @@
 
 .ingredient-input {
     width: 100%;
+
+    overflow: hidden;
+    resize: none;
+    font-weight: 300;
 }
