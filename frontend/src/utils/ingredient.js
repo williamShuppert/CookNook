@@ -1,11 +1,22 @@
 import Fraction from "fraction.js"
+import pluralize from "pluralize"
+
+pluralize.addUncountableRule('tbsp')
+pluralize.addUncountableRule('tsp')
+pluralize.addUncountableRule('ml')
+pluralize.addUncountableRule('L')
+pluralize.addUncountableRule('oz')
+pluralize.addUncountableRule('g')
+pluralize.addUncountableRule('kg')
+pluralize.addUncountableRule('qt')
+pluralize.addUncountableRule('pt')
 
 export const Units = {
     "volume": {
       "cup": ["cup", "cups"],
       "teaspoon": ["teaspoon", "teaspoons", "tsp"],
       "tablespoon": ["tablespoon", "tablespoons", "tbsp"],
-      "fluid_ounce": ["fluid ounce", "fluid ounces", "fl oz"],
+      "fluid ounce": ["fluid ounce", "fluid ounces", "fl oz", "fl-oz"],
       "pint": ["pint", "pints", "pt"],
       "quart": ["quart", "quarts", "qt"],
       "gallon": ["gallon", "gallons", "gal"],
@@ -52,6 +63,17 @@ export const Units = {
     }
 }
 
+export const descriptors = {
+    "large": ["large", "lg"],
+    "medium": ["medium", "med"],
+    "small": ["small", "sm"],
+    "tiny": ["tiny"],
+}
+
+export const UnitTypesAffectedByServingSize = [
+    'volume', 'weight', 'countable', 'specialized'
+]
+
 export const getUnitType = (str) => {
     for (const unitType in Units) {
         const units = Units[unitType]
@@ -65,13 +87,9 @@ export const getUnitType = (str) => {
 }
 
 export const getNumFormat = (s) => {
-    const intRegex = /^\d+$/
-    const floatRegex = /^\d+\.\d+$/
-    const fractionRegex = /^\d+\/\d+$/
+    const fractionRegex = /(?:[1-9][0-9]*|0)\/[1-9][0-9]*/
 
-    if (intRegex.test(s))
-        return "num"
-    else if (floatRegex.test(s))
+    if (!isNaN(s))
         return "num"
     else if (fractionRegex.test(s))
         return "frac"
@@ -98,18 +116,21 @@ export const extractMeasurements = (string) => {
            // Check for int, frac, and unit
             token.string += `${words[i]} ${words[i + 1]} ${words[i + 2]}`
             token.value = new Fraction(`${words[i]} ${words[i + 1]}`)
+            token.unit = words[i + 2]
             token.unitType = getUnitType(words[i + 2])
             i += 2
         } else if (i < words.length - 1 && getNumFormat(words[i]) === 'num' && getUnitType(words[i + 1])) {
             // Check for int and unit
             token.string += `${words[i]} ${words[i + 1]}`
             token.value = new Fraction(words[i])
+            token.unit = words[i + 1]
             token.unitType = getUnitType(words[i + 1])
             i += 1
         } else if (i < words.length - 1 && getNumFormat(words[i]) === 'frac' && getUnitType(words[i + 1])) {
             // Check for frac and unit
             token.string += `${words[i]} ${words[i + 1]}`
             token.value = new Fraction(words[i])
+            token.unit = words[i + 1]
             token.unitType = getUnitType(words[i + 1])
             i += 1
         } else if (getNumFormat(words[i]) === 'num' || getNumFormat(words[i]) === 'frac') {

@@ -1,31 +1,22 @@
+import pluralize from 'pluralize'
 import { useClickedOutside } from '../../../hooks/clicked-outside'
+import { UnitTypesAffectedByServingSize, extractMeasurements } from '../../../utils/ingredient'
 import './style.scss'
 import { useRef, useState } from 'react'
 
-const Ingredient = () => {
+// TODO:
+// 1. check if type should be multiplied (specialized, time, and length units are not multiplied)
+// 2. pluralize the unit if necessary
+const Ingredient = ({ multiplier }) => {
+    multiplier = multiplier == 0 ? 1 : multiplier
     const inputRef = useRef()
     const [isEditing, setIsEditing] = useState(false)
     const [value, setValue] = useState('')
     useClickedOutside(inputRef, () => setIsEditing(false))
 
-    const multiplier = 3
-
     const handleKeyDown = (event) => {
         if (isEditing && event.key === 'Enter')
             setIsEditing(false)
-    }
-
-    const boldMeasurements = () => {
-        return value.split(' ').map(token => ({
-            type: !isNaN(token) ? 'measurement' : 'string',
-            value: ' ' + token,
-            getValue: (multiplier) => {
-                // TODO:
-                // 1. check if type should be multiplied (non countable units are not multiplied)
-                // 2. pluralize the unit if necessary
-                return token * multiplier
-            }
-        }))
     }
 
     const handleMeasurementClick = (e, token) => {
@@ -33,17 +24,28 @@ const Ingredient = () => {
         console.log(token)
     }
 
+    const getMeasurementValue = (token) => {
+        if (UnitTypesAffectedByServingSize.includes(token.unitType))
+            return token.value.mul(multiplier)
+        return token.value
+    }
+
     if (isEditing) return (
-        <input ref={inputRef} className="ingredient" autoFocus type="text" value={value} onChange={e => setValue(e.target.value)} onKeyDown={handleKeyDown} />
+        <input ref={inputRef} className="ingredient-input" autoFocus type="text" value={value} onChange={e => setValue(e.target.value)} onKeyDown={handleKeyDown} />
     )
 
     return (
         <div className="ingredient" onClick={() => setIsEditing(true)} >
             {value == '' ? 'tap to add ingredient' : (
-                boldMeasurements().map((token, i) => (
+                extractMeasurements(value).map((token, i) => (
                     <span key={i}>
-                        {token.type == 'string' ? token.value : (
-                            <strong onClick={e => handleMeasurementClick(e, token)}> {token.getValue(multiplier)}</strong>
+                        {!token.isMeasurement ? token.string : (
+                            <strong onClick={e => handleMeasurementClick(e, token)}>
+                                {' '}
+                                {getMeasurementValue(token).toFraction(true)}
+                                {' '}
+                                {pluralize(token.unit ?? '', getMeasurementValue(token).valueOf())}
+                            </strong>
                         )}
                     </span>
                 ))

@@ -72,6 +72,8 @@ const RecipeViewPage = () => {
         window.scrollTo(0, location.state?.scrollY) // Scroll to saved scroll location
     }
 
+    const [multiplier, setMultiplier] = useState(1)
+
     return (
         <motion.div
             ref={pageRef}
@@ -120,9 +122,9 @@ const RecipeViewPage = () => {
                 </p>
 
                 <SectionHeader title="ingredients" />
-
-                <Ingredient />
-                <Ingredient />
+                <input type='number' placeholder='1' value={multiplier} onChange={e => setMultiplier(e.target.value)} />
+                <Ingredient multiplier={multiplier} />
+                <Ingredient multiplier={multiplier} />
             </div>
         </motion.div>
     )
