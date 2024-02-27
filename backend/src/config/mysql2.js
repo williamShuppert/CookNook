@@ -38,3 +38,7 @@ export const useConnection = (conn) => ({
         }
     }
 })
+
+pool.execute('SELECT 1 + 1 AS ans')
+    .then(_ => console.log('Database connection was successful'))
+    .catch(err => console.error(err))
