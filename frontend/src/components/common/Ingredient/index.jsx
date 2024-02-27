@@ -43,7 +43,7 @@ const Ingredient = ({ multiplier, value, onChange, disableEditing }) => {
                     <span key={i}>
                         {!token.isMeasurement ? token.string : (
                             <strong onClick={e => handleMeasurementClick(e, token)}>
-                                {' '}
+                                {i > 0 && ' '} 
                                 {getMeasurementValue(token).toFraction(true)}
                                 {' '}
                                 {pluralize(token.unit ?? '', getMeasurementValue(token).valueOf())}
