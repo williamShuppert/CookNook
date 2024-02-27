@@ -1,6 +1,7 @@
 import './index.scss'
 import arrowLeft from '/src/assets/icons/arrow-left-solid.svg'
 import ellipsis from '/src/assets/icons/ellipsis-solid.svg'
+import plusIcon from '/src/assets/icons/plus-solid.svg'
 import SectionHeader from '../../common/SectionHeader'
 import GeneralRecipeInfo from '../../common/GeneralRecipeInfo'
 import Interactions from './Interactions'
@@ -73,6 +74,7 @@ const RecipeViewPage = () => {
     }
 
     const [multiplier, setMultiplier] = useState(1)
+    const [ingredients, setIngredients] = useState([''])
 
     return (
         <motion.div
@@ -123,8 +125,19 @@ const RecipeViewPage = () => {
 
                 <SectionHeader title="ingredients" />
                 <input type='number' placeholder='1' value={multiplier} onChange={e => setMultiplier(e.target.value)} />
-                <Ingredient multiplier={multiplier} />
-                <Ingredient multiplier={multiplier} />
+
+                {ingredients.map((value, i) => (
+                    <Ingredient key={i} multiplier={multiplier} value={value} onChange={e => setIngredients(prev => {
+                        const t = [...prev]
+                        t[i] = e.target.value
+                        return t
+                    })} />
+                ))}
+
+                <button className='button-circle' onClick={()=>setIngredients(prev => [...prev, ''])}>
+                    <img className='icon' src={plusIcon} />
+                </button>
+
             </div>
         </motion.div>
     )
