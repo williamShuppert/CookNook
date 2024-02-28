@@ -8,7 +8,10 @@ config[NODE_ENV] = {
   "database": process.env.PGDATABASE,
   "host": process.env.PGHOST,
   "dialect": "postgres",
-  "port": process.env.PGPORT
+  "port": process.env.PGPORT,
+  "dialectOptions": {
+    ssl: process.env.NODE_ENV == 'prod'
+  }
 }
 
 export default config
