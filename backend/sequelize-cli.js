@@ -7,7 +7,8 @@ config[NODE_ENV] = {
   "password": process.env.PGPASSWORD,
   "database": process.env.PGDATABASE,
   "host": process.env.PGHOST,
-  "dialect": "postgres"
+  "dialect": "postgres",
+  "port": process.env.PGPORT
 }
 
 export default config
