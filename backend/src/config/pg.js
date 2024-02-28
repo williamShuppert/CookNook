@@ -1,11 +1,17 @@
 import pg from 'pg'
 const { Pool } = pg
 
-export const pool = new Pool()
+export const pool = process.env.PGURL
+    ? new Pool({ connectionString: process.env.PGURL })
+    : new Pool()
 
 export const ensureConnection = async () => {
     await pool.query('SELECT 1 + 1 AS ans')
-    console.log('Database connection successful')
+        .then(_ => console.log('Database connection successful'))
+        .catch(err => {
+            console.log(err)
+            throw err
+        })
 }
 
 export const transaction = (client, func) => {
