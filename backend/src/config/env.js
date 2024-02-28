@@ -14,12 +14,12 @@ const validateEnvVariables = () => {
         NODE_ENV: Joi.string().valid('dev', 'stage', 'prod').required(),
         CORS_ORIGIN: Joi.string().allow(''),
         PORT: Joi.number().default(3000),
-        PGURL: Joi.string(),
-        PGHOST: Joi.string(),
-        PGUSER: Joi.string(),
-        PGDATABASE: Joi.string(),
-        PGPASSWORD: Joi.string(),
-        PGPORT: Joi.number(),
+        DB_URL: Joi.string(),
+        DB_HOST: Joi.string(),
+        DB_PORT: Joi.number(),
+        DB_NAME: Joi.string(),
+        DB_USER: Joi.string(),
+        DB_PASSWORD: Joi.string(),
         ACCESS_JWT_SECRET: Joi.string().min(64).required(),
         REFRESH_JWT_SECRET: Joi.string().min(64).required(),
         OAUTH_SUCCESS_REDIRECT_URL: Joi.string().required(),
@@ -27,6 +27,9 @@ const validateEnvVariables = () => {
         GOOGLE_CLIENT_SECRET: Joi.string().required(),
         GOOGLE_CLIENT_CALLBACK_URL: Joi.string().required()
     }).unknown()
+        .xor('DB_HOST', 'DB_URL').xor('DB_PORT', 'DB_URL')
+        .xor('DB_NAME', 'DB_URL').xor('DB_USER', 'DB_URL')
+        .xor('DB_PASSWORD', 'DB_URL')
 
     const { error } = envVarsSchema.prefs({ errors: { label: 'key' } }).validate(process.env, {abortEarly: false})
 

@@ -1,14 +1,16 @@
 import './src/config/env.js'
 
+console.log(process.env.DB_HOST)
+
 const NODE_ENV = process.env.NODE_ENV
 const config = {}
 config[NODE_ENV] = {
-  "username": process.env.PGUSER,
-  "password": process.env.PGPASSWORD,
-  "database": process.env.PGDATABASE,
-  "host": process.env.PGHOST,
+  "host": process.env.DB_HOST,
+  "port": process.env.DB_PORT,
+  "database": process.env.DB_NAME,
+  "username": process.env.DB_USER,
+  "password": process.env.DB_PASSWORD,
   "dialect": "postgres",
-  "port": process.env.PGPORT,
   "dialectOptions": {
     ssl: process.env.NODE_ENV == 'prod'
   }
