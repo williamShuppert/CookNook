@@ -47,7 +47,6 @@ export const refresh = () => catchAsync(async (req, res) => {
 
         req.user = { id: decoded.userId }
     } catch (err) {
-        console.log(err)
         throw new ApiError(httpStatus.UNAUTHORIZED)
     }
 

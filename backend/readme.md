@@ -3,14 +3,14 @@
 ## Setup
 The following steps will walk you through setting up the dev environment. To run in another environment simply replace *dev* with *stage* or *prod*.
 
-1. ```cd backend``` to move you into the correct directory.
+1. cd into this directory.
 2. ```npm i``` to install all dependencies.
-3. add a ```.env.dev``` file to the ```backend``` folder and include all the required environment variables. _(look to [Environment Variables](#environment-variables) for further clarification)_
+3. add a ```.env.dev``` file to the ```root``` folder and include all the required environment variables. _(look to [Environment Variables](#environment-variables) for further clarification)_
 4. ```npm run db:create:dev``` will create the database (using env vars provided) and runs all migrations
 5. ```npm run start:dev``` starts the API
 
 ## Environment Variables
-This project uses multiple env files, one for each environment. An example env file is provided. The following are the different env files supported:
+This project uses multiple env files, one for each environment. An example env file is provided (```.env.example```). The following are the different env files supported:
 * ```.env.dev```
 * ```.env.stage```
 * ```.env.prod```

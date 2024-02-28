@@ -24,9 +24,11 @@ const validateEnvFile = () => {
         NODE_ENV: Joi.string().valid('dev', 'stage', 'prod').required(),
         CORS_ORIGIN: Joi.string().allow(''),
         PORT: Joi.number().default(3000),
-        DB_NAME: Joi.string().required(),
-        DB_USERNAME: Joi.string().required(),
-        DB_PASSWORD: Joi.string().required(),
+        PGHOST: Joi.string().required(),
+        PGUSER: Joi.string().required(),
+        PGDATABASE: Joi.string().required(),
+        PGPASSWORD: Joi.string().required(),
+        PGPORT: Joi.number().required(),
         ACCESS_JWT_SECRET: Joi.string().min(64).required(),
         REFRESH_JWT_SECRET: Joi.string().min(64).required(),
         OAUTH_SUCCESS_REDIRECT_URL: Joi.string().required(),
@@ -47,7 +49,7 @@ const validateEnvFile = () => {
 
     console.log('Environment Config: (located at: /config/env.config.js)')
     console.log(` - Current Environment: "${NODE_ENV}"`)
-    console.log(` - Current Database: "${process.env.DB_NAME}"`)
+    console.log(` - Current Database: "${process.env.PGDATABASE}"`)
 }
 
 if (process.env.PORT) // Return if env is already configured

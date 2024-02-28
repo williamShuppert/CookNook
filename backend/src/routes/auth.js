@@ -1,5 +1,5 @@
 import { Router } from "express"
-import { useDB } from "../middleware/mysql2.js"
+import { useDB } from "../middleware/pg.js"
 import { loginSuccess, logout, oauthSuccess, refresh } from "../controllers/auth.js"
 import { localLoginValidation } from "../validation/auth.js"
 import { validate } from "../middleware/validate.js"

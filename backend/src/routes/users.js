@@ -1,6 +1,6 @@
 import { Router } from "express"
 import { createUser, updateUser} from "../controllers/users.js"
-import { useDB } from "../middleware/mysql2.js"
+import { useDB } from "../middleware/pg.js"
 import { validate } from "../middleware/validate.js"
 import { createUserValidation, updateUserValidation } from "../validation/users.js"
 import { requireAuth } from "../middleware/auth.js"

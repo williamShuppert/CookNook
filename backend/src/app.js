@@ -16,6 +16,7 @@ import { fileURLToPath } from 'url'
 import path, { dirname } from 'path'
 import { ApiError } from './utils/apiError.js'
 import httpStatus from 'http-status'
+import { ensureConnection } from './config/pg.js'
 
 const port = process.env.PORT
 const app = express()
@@ -44,8 +45,10 @@ app.get('*', (req, res) => res.sendFile(path.join(__dirname, '../../frontend/dis
 app.use(errorConverter)
 app.use(errorHandler)
 
-if (process.env.NODE_ENV == 'dev') // Use self signed certification in dev
-    https.createServer(httpsOptions, app)
-        .listen(port, () => console.log(`listening on port ${port}`))
-else // SSL is handled by hosting platform
-    app.listen(port, () => console.log(`listening on port ${port}`))
+ensureConnection().then(_ => {
+    if (process.env.NODE_ENV == 'dev') // Use self signed certification in dev
+        https.createServer(httpsOptions, app)
+            .listen(port, () => console.log(`listening on port ${port}`))
+    else // SSL is handled by hosting platform
+        app.listen(port, () => console.log(`listening on port ${port}`))
+})

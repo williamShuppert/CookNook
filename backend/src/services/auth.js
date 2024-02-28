@@ -9,7 +9,11 @@ import bcrypt from 'bcrypt'
 export const AuthService = (db) => ({
     createRefreshToken: async (userId) => {
         const tokenId = UUID()
-        await db.execute('INSERT INTO refresh_tokens (id, userId) VALUES (?,?)', [tokenId, userId])
+        await db.query('INSERT INTO refresh_tokens (token_id, user_id, expires_at) VALUES ($1,$2,$3)', [
+            tokenId,
+            userId,
+            new Date(new Date().getTime() + cookieConfig.refresh.options.maxAge)
+        ])
 
         return JWT.sign(
             { userId, tokenId },
@@ -25,14 +29,14 @@ export const AuthService = (db) => ({
     },
 
     validateRefreshToken: async (decodedToken) => {
-        const res = (await db.conn.execute('DELETE FROM refresh_tokens WHERE id = ?', [decodedToken.tokenId]))[0]
+        const res = await db.query('DELETE FROM refresh_tokens WHERE token_id = $1', [decodedToken.tokenId])
 
-        if (res.affectedRows != 1)
+        if (res.rowCount != 1)
             throw new ApiError(httpStatus.UNAUTHORIZED)
     },
 
     removeRefreshTokenByUser: async (userId) => {
-        await db.execute('DELETE FROM refresh_tokens WHERE userId = ?', [userId])
+        await db.query('DELETE FROM refresh_tokens WHERE user_id = $1', [userId])
     },
 
     localLogin: async (username, email, password) => {
@@ -46,35 +50,29 @@ export const AuthService = (db) => ({
         if (!correctPassword) throw new ApiError(httpStatus.UNAUTHORIZED)
 
         return {
-            id: user.id,
+            id: user.user_id,
             username: user.username,
             email: user.email,
-            emailVerified: user.emailVerified
+            emailVerified: user.email_verified
         }
     },
 
     googleLogin: async (profile) => {
-        const oauthUser = await AuthService(db).getOAuthUser(1, profile.id)
+        const user = await UsersService(db).getUserByGoogleId(profile.id)
             
-        if (!oauthUser) {
+        if (!user) {
             // TODO: handle duplicate usernames
-            const userId = await db.transaction(async () => {
-                const userId = await UsersService(db).createUser(profile.displayName, profile.email, null, profile.email_verified)
-                await AuthService(db).insertOAuthUser(1, profile.id, userId)
-                return userId
-            })
+            const userId = await UsersService(db).createUser(
+                profile.displayName,
+                profile.email,
+                null,
+                profile.email_verified,
+                profile.id
+            )
 
             return { id: userId }
         }
 
-        return { id: oauthUser.userId }
+        return { id: user.user_id }
     },
-
-    getOAuthUser: async (providerId, providerUserId) => {
-        return await db.execute('SELECT * FROM oauth JOIN users ON userId = id WHERE providerId = ? and providerUserId = ?', [providerId, providerUserId], true)
-    },
-
-    insertOAuthUser: async (providerId, providerUserId, userId) => {
-        return await db.execute('INSERT INTO oauth (providerId, providerUserId, userId) VALUES (?,?,?)', [providerId, providerUserId, userId])
-    }
 })
