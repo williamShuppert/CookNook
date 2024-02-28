@@ -9,17 +9,7 @@ if (!NODE_ENV)
 if (!['dev', 'stage', 'prod'].includes(NODE_ENV))
     throw new Error("NODE_ENV must be one of the following: 'dev', 'stage', 'prod'")
 
-const validateEnvFile = () => {
-    let envFileName = `.env.${NODE_ENV}`
-    if (!fs.existsSync(envFileName)) {
-        if (!fs.existsSync('.env'))
-            throw new Error(`Missing ${envFileName} file`)
-
-        envFileName = '.env' // Default to .env file
-    }
-
-    dotenv.config({ path: envFileName })
-
+const validateEnvVariables = () => {
     const envVarsSchema = Joi.object().keys({
         NODE_ENV: Joi.string().valid('dev', 'stage', 'prod').required(),
         CORS_ORIGIN: Joi.string().allow(''),
@@ -41,8 +31,8 @@ const validateEnvFile = () => {
 
     if (error)
         throw new Error(
-            "Config validation error\n" +
-            `The ${envFileName} file fails validation:\n` +
+            "Environment variables validation error\n" +
+            `Fails validation(s):\n` +
             error.details.map(detail => ' - ' + detail.message).join('\n') +
             '\n'
         )
@@ -52,7 +42,15 @@ const validateEnvFile = () => {
     console.log(` - Current Database: "${process.env.PGDATABASE}"`)
 }
 
-if (process.env.PORT) // Return if env is already configured
-    console.warn('Environment was already configured. No env file will be used.')
-else
-    validateEnvFile()
+if (!process.env.PORT) { // env variables are not yet configured
+    let envFileName = `.env.${NODE_ENV}`
+    if (!fs.existsSync(envFileName))
+        throw new Error(`Missing ${envFileName} file`)
+
+    dotenv.config({ path: envFileName })
+    console.log(`Validating environment variables from the file "${envFileName}"`)
+} else {
+    console.log(`Validating pre-configured environment variables`)
+}
+
+validateEnvVariables()
