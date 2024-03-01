@@ -75,4 +75,12 @@ export const AuthService = (db) => ({
 
         return { id: user.user_id }
     },
+
+    linkGoogle: async (userId, profile) => {
+        await db.query('UPDATE users SET email = $1, google_id = $2, email_verified = $3 WHERE user_id = $4', [
+            profile.email, profile.id,
+            profile.email_verified, userId
+        ])
+        return { id: userId }
+    }
 })

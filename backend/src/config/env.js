@@ -25,7 +25,8 @@ const validateEnvVariables = () => {
         OAUTH_SUCCESS_REDIRECT_URL: Joi.string().required(),
         GOOGLE_CLIENT_ID: Joi.string().required(),
         GOOGLE_CLIENT_SECRET: Joi.string().required(),
-        GOOGLE_CLIENT_CALLBACK_URL: Joi.string().required()
+        GOOGLE_CLIENT_CALLBACK_URL: Joi.string().required(),
+        GOOGLE_STATE_JWT_SECRET: Joi.string().min(64).required()
     }).unknown()
         .xor('DB_HOST', 'DB_URL').xor('DB_PORT', 'DB_URL')
         .xor('DB_NAME', 'DB_URL').xor('DB_USER', 'DB_URL')
@@ -43,7 +44,7 @@ const validateEnvVariables = () => {
 
     console.log('Environment Config: (located at: /config/env.config.js)')
     console.log(` - Current Environment: "${NODE_ENV}"`)
-    console.log(` - Current Database: "${process.env.PGDATABASE}"`)
+    console.log(` - Current Database: "${process.env.DB_NAME}"`)
 }
 
 if (!process.env.PORT) { // env variables are not yet configured
