@@ -1,12 +1,21 @@
 .auth-page {
     padding: var(--page-padding);
 
+    h1 {
+        text-align: center;
+        margin: 0;
+    }
+
+    h2 {
+        text-align: center;
+        margin-top: 0;
+        margin-bottom: 25px;
+        font-weight: 400;
+        text-transform: capitalize;
+        font-size: .9em;
+    }
+
     form {
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        gap: 15px;
 
 
         input[type=text],
@@ -18,15 +27,11 @@
             margin-top: 15px;
         }
 
-        .input-group {
-
-        }
-
         .auth-state-message {
             text-align: center;
             font-weight: 300;
             font-size: .8em;
-            
+
             span {
                 position: relative;
 
@@ -40,6 +45,15 @@
                     border-bottom: solid 1px black;
                 }
             }
+        }
+
+        .socials {
+            padding-top: 15px;
+            max-width: 500px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
     }
 }

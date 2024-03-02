@@ -2,6 +2,10 @@
     padding: 0 var(--page-padding);
     width: 100%;
 
+    .search-bar input {
+        width: 100%;
+    }
+
     .results {
         display: flex;
         flex-wrap: wrap;

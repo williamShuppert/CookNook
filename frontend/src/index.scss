@@ -5,7 +5,7 @@
     --color-1: #020202;
 
     --bg-color-1: #ffffff;
-    --bg-color-2: #F3F3F3;
+    --bg-color-2: #F2F2F2;
     --bg-color-3: #D9D9D9;
 
     --border-radius: 12px;
@@ -25,48 +25,68 @@
     color: var(--color-1);
 }
 
-button {
-    cursor: pointer;
-}
-
 hr {
     border: none;
     border-bottom: solid 1px var(--bg-color-2);
     margin: 20px 0;
 }
 
-label {
-    display: block;
-    padding-bottom: 3px;
-    font-size: .8em;
-    text-transform: uppercase;
-    font-weight: 300;
+form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 25px;
 }
 
 input[type=text],
 input[type=password],
 input[type=number],
+input[type=search],
 textarea,
 .ingredient {
-    padding: 5px 10px;
-    background-color: var(--bg-color-2);
-    border: none;
-    color: black;
-    border-radius: var(--border-radius);
+  padding: 8px 20px;
+  padding-top: 12px;
+  background-color: var(--bg-color-2);
+  border: none;
+  color: black;
+  border-radius: 1000px;
 
-    &:focus {
-        outline: solid 2px black;
-    }
+  background-color: white;
+  border: solid 1px var(--bg-color-3);
+
+  &:focus {
+      outline: solid 2px black;
+  }
 }
 
+button,
 input[type=submit] {
+  cursor: pointer;
+  text-transform: capitalize;
+  border: none;
+  background-color: var(--bg-color-2);
+  padding: 10px 10px;
+  border-radius: var(--border-radius);
+  border-radius: 1000px;
+  font-weight: 400;
+}
+
+.input-group {
+  position: relative;
+
+  label {
+    top: 0;
+    left: 0;
+    transform: translate(15px, -40%);
+    position: absolute;
+    padding-bottom: 3px;
     font-size: .8em;
-    text-transform: uppercase;
-    border: none;
-    background-color: var(--bg-color-2);
-    padding: 7px 10px;
-    border-radius: var(--border-radius);
     font-weight: 300;
+
+    background-color: white;
+    padding: 0 5px;
+  }
 }
 
 .pages {

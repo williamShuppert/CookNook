@@ -1,9 +1,8 @@
 import './style.scss'
 import RecipeCard from './RecipeCard'
 import { motion } from 'framer-motion'
-import { useCallback, useEffect } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import SearchInput from './SearchInput'
 import { useDispatch, useSelector } from 'react-redux'
 import { api, recipeUpdated, selectRecipes, selectRecipesStatus } from '../../../redux/slices/searchPageSlice'
 
@@ -13,6 +12,8 @@ const SearchPage = () => {
 
     const recipes = useSelector(selectRecipes)
     const recipesStatus = useSelector(selectRecipesStatus)
+
+    const [search, setSearch] = useState('')
 
     useEffect(() => {
         if (recipesStatus == 'idle')
@@ -41,7 +42,12 @@ const SearchPage = () => {
         >
             <h1 className='page-title'>Recipe Search</h1>
 
-            <SearchInput />
+            <div className="input-group search-bar">
+                <label htmlFor='search'>Search</label>
+                <input id='search' type="search" value={search} onChange={e => setSearch(e.target.value)} required />
+            </div>
+
+            <hr/>
 
             <div className="results">
                 {recipes.map(recipe =>
