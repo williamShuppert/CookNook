@@ -72,23 +72,6 @@ input[type=submit] {
   font-weight: 400;
 }
 
-.input-group {
-  position: relative;
-
-  label {
-    top: 0;
-    left: 0;
-    transform: translate(15px, -40%);
-    position: absolute;
-    padding-bottom: 3px;
-    font-size: .8em;
-    font-weight: 300;
-
-    background-color: white;
-    padding: 0 5px;
-  }
-}
-
 .pages {
   & > * {
     position: absolute;
@@ -123,6 +106,53 @@ input[type=submit] {
   place-content: center;
 }
 
+.error-message {
+  color: rgb(255, 46, 46);
+  font-weight: 300;
+  font-size: .8em;
+}
+
+.input-group {
+  position: relative;
+
+  label {
+    top: 0;
+    left: 0;
+    transform: translate(15px, -40%);
+    position: absolute;
+    padding-bottom: 3px;
+    font-size: .8em;
+    font-weight: 300;
+
+    background-color: white;
+    padding: 0 5px;
+  }
+
+  input[type=submit] {
+    width: 100%;
+  }
+
+  .error-message {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    transform: translateY(100%);
+    padding: 0 20px;
+    padding-top: 2px;
+    width: 100%;
+    text-align: right;
+    text-transform: capitalize;
+
+    &.error-top {
+      bottom: unset;
+      right: unset;
+      left: 0;
+      top: 0;
+      transform: translateY(-100%);
+    }
+  }
+}
+
 .icon {
   width: 1em;
   height: 1em;
@@ -152,17 +182,6 @@ input[type=submit] {
 .small-caps {
   font-size: .8em;
   text-transform: uppercase;
-}
-
-.error-message {
-  display: block;
-  height: 0%;
-  overflow: hidden;
-  color: rgb(255, 46, 46);
-  padding-top: 3px;
-  font-weight: 300;
-  font-size: .8em;
-  transition: all ease-in-out 5s;
 }
 
 /**** GOOGLE SIGN IN BUTTON ****/

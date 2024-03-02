@@ -33,10 +33,14 @@ const AuthPage = () => {
         setErrors({})
         const errors = {}
 
-        if (!username) errors.username = 'username required'
-        if (!password) errors.password = 'password required'
-        if (authState == 'register' && passwordConfirm != password)
-            errors.passwordConfirm = 'passwords do not match'
+        if (!username) errors.username = 'required'
+        if (!password) errors.password = 'required'
+        if (authState == 'register') {
+            if (passwordConfirm == '')
+                errors.passwordConfirm = 'required'
+            else if (passwordConfirm != password)
+                errors.passwordConfirm = 'passwords do not match'
+        }
 
         if (Object.keys(errors).length > 0)
             return setErrors(errors)
@@ -47,7 +51,7 @@ const AuthPage = () => {
                     dispatch(setUser(user))
                     navigate('/')
                 })
-                .catch(_ => setErrors({response: 'Incorrect login' }))
+                .catch(_ => setErrors({response: 'incorrect login' }))
         else if (authState == 'register')
             register({ username, email: email == '' ? null : email, password }).unwrap()
                 .then(user => {
@@ -62,14 +66,6 @@ const AuthPage = () => {
         window.location.href = `${import.meta.env.VITE_API_URL}/auth/google`
     }
 
-    const handleRefresh = async () => {
-        fetch(`${import.meta.env.VITE_API_URL}/auth/refresh`, {
-            method: 'POST',
-            credentials: 'include'
-        }).then(res => res.json()).then(res => console.log(res))
-        .catch(err => console.log(err))
-    }
-
     return (
         <div className='auth-page'>
 
@@ -77,10 +73,10 @@ const AuthPage = () => {
                 <h1>CookNook</h1>
                 <h2>- {authState} -</h2>
             </div>
-            
+
             <form onSubmit={handleSubmit}>
                 <div className='input-group'>
-                    <label htmlFor="username">Username</label>
+                    <label htmlFor="username">Username *</label>
                     <input id="username" name="username" type="text" value={username} onChange={e => setUsername(e.target.value)}/>
                     {errors.username && <span className="error-message">
                         {errors.username}
@@ -98,7 +94,7 @@ const AuthPage = () => {
                 }
 
                 <div className='input-group'>
-                    <label htmlFor="password">Password</label>
+                    <label htmlFor="password">Password *</label>
                     <input id="password" name="password" type="password" value={password} onChange={e => setPassword(e.target.value)}/>
                     {errors.password && <span className="error-message">
                         {errors.password}
@@ -107,15 +103,18 @@ const AuthPage = () => {
 
                 {authState == 'register' &&
                     <div className='input-group'>
-                        <label htmlFor="password-confirm">Confirm Password</label>
+                        <label htmlFor="password-confirm">Confirm Password *</label>
                         <input id="password-confirm" name="password-confirm" type="password" value={passwordConfirm} onChange={e => setPasswordConfirm(e.target.value)}/>
-                        {errors.username && <span className="error-message">
+                        {errors.passwordConfirm && <span className="error-message">
                             {errors.passwordConfirm}
                         </span>}
                     </div>
                 }
 
-                <input disabled={isLoading} type="submit" value={authState} />
+                <div className="input-group">
+                    <input disabled={isLoading} type="submit" value={authState} />
+                    {errors.response && <span className='error-message error-top'>{errors.response}</span>}
+                </div>
 
                 <span className='auth-state-message'>
                     {authState == 'register'
@@ -124,8 +123,6 @@ const AuthPage = () => {
                     }
                     ? Click <span onClick={toggleAuthState}>here</span>.
                 </span>
-
-                {errors.response && <span className='error-message'>{errors.response}</span>}
 
                 <div className="socials">
                     <button onClick={handleGoogle} className="gsi-material-button">
@@ -146,9 +143,6 @@ const AuthPage = () => {
                     </button>
                 </div>
             </form>
-
-            {/* <button onClick={handleRefresh}>Refresh</button> */}
-
         </div>
     )
 }
