@@ -21,13 +21,20 @@ module.exports = {
           user_id UUID NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
           expires_at timestamp NOT NULL
         );`, {transaction: t}),
-
+      queryInterface.sequelize.query(`
+        CREATE TABLE errors (
+          error_id SERIAL PRIMARY KEY,
+          message TEXT,
+          stack TEXT,
+          date timestamp default current_timestamp
+        );`, {transaction: t}),
       ]))
   },
   async down (queryInterface, Sequelize) {
     return queryInterface.sequelize.transaction(t => Promise.all([
       queryInterface.dropTable('refresh_tokens', {transaction: t}),
       queryInterface.dropTable('users', {transaction: t}),
+      queryInterface.dropTable('errors', {transaction: t}),
     ]))
   }
 };
