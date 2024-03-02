@@ -72,8 +72,12 @@ const AuthPage = () => {
 
     return (
         <div className='auth-page'>
-            <h1>CookNook</h1>
-            <h2>- {authState} -</h2>
+
+            <div className="page-header">
+                <h1>CookNook</h1>
+                <h2>- {authState} -</h2>
+            </div>
+            
             <form onSubmit={handleSubmit}>
                 <div className='input-group'>
                     <label htmlFor="username">Username</label>

@@ -1,9 +1,10 @@
 .search-page {
-    padding: 0 var(--page-padding);
+    padding: var(--page-padding);
     width: 100%;
 
     .search-bar input {
         width: 100%;
+        margin-bottom: 40px;
     }
 
     .results {

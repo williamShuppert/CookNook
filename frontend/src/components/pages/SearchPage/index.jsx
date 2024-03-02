@@ -40,14 +40,15 @@ const SearchPage = () => {
             animate={{x: 0}}
             exit={{x: -100}}
         >
-            <h1 className='page-title'>Recipe Search</h1>
+            <div className="page-header">
+                <h1>CookNook</h1>
+                <h2>- recipe search -</h2>
+            </div>
 
             <div className="input-group search-bar">
                 <label htmlFor='search'>Search</label>
                 <input id='search' type="search" value={search} onChange={e => setSearch(e.target.value)} required />
             </div>
-
-            <hr/>
 
             <div className="results">
                 {recipes.map(recipe =>
