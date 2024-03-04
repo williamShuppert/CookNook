@@ -9,6 +9,7 @@ import cookieParser from 'cookie-parser'
 import { errorConverter, errorHandler } from './middleware/errors.js'
 import usersRoute from './routes/users.js'
 import authRoute from './routes/auth.js'
+import recipeRoute from './routes/recipes.js'
 import passport from 'passport'
 import { corsOptions } from './config/cors.js'
 import { httpsOptions } from './config/https.js'
@@ -33,6 +34,7 @@ app.use(passport.initialize())
 // Routes
 app.use('/api/users', usersRoute)
 app.use('/api/auth', authRoute)
+app.use('/api/recipes', recipeRoute)
 app.use('/api', () => {throw new ApiError(httpStatus.NOT_FOUND)})
 
 // Serve static react app
