@@ -12,7 +12,7 @@ router.route('/')
     .post(validate(createRecipeValidation), requireAuth(), useDB(), createRecipe())
 
 router.route('/:id')
-    .patch(validate(updateRecipeValidation), requireAuth(), useDB(), deleteRecipe())
-    .delete(validate(deleteRecipeValidation), requireAuth(), useDB(), updateRecipe())
+    .patch(validate(updateRecipeValidation), requireAuth(), useDB(), updateRecipe())
+    .delete(validate(deleteRecipeValidation), requireAuth(), useDB(), deleteRecipe())
 
 export default router

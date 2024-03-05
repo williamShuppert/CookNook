@@ -1,6 +1,8 @@
 import { v4 as UUID } from 'uuid'
 import pg from 'pg'
 import PostgresInterval from 'postgres-interval'
+import { ApiError } from '../utils/apiError.js'
+import httpStatus from 'http-status'
 
 /**
  * @param {pg.PoolClient} db
@@ -29,6 +31,13 @@ export const RecipesService = (db) => ({
             cook_time
         ])
         return id
+    },
+
+    delete: async (user_id, recipe_id) => {
+        const res = await db.query('DELETE FROM recipes WHERE author_id = $1 AND recipe_id = $2', [user_id, recipe_id])
+
+        if (res.rowCount != 1)
+            throw new ApiError(httpStatus.FORBIDDEN)
     },
 
     /**

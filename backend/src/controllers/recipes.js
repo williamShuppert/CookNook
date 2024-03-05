@@ -1,4 +1,5 @@
 import { RecipesService } from "../services/recipes.js"
+import { ApiError } from "../utils/apiError.js"
 import { catchAsync } from "../utils/catchAsync.js"
 import httpStatus from 'http-status'
 
@@ -12,7 +13,9 @@ export const createRecipe = () => catchAsync(async (req, res) => {
 })
 
 export const deleteRecipe = () => catchAsync(async (req, res) => {
-    res.sendStatus(httpStatus.NOT_IMPLEMENTED)
+    await RecipesService(req.db).delete(req.user.id, req.params.id)
+
+    res.sendStatus(httpStatus.OK)
 })
 
 export const updateRecipe = () => catchAsync(async (req, res) => {
