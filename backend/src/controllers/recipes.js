@@ -3,11 +3,12 @@ import { catchAsync } from "../utils/catchAsync.js"
 import httpStatus from 'http-status'
 
 export const createRecipe = () => catchAsync(async (req, res) => {
-    const {name, description, ingredients, instructions} = req.body
-
-    await RecipesService(req.db).create(req.user.id, name, description, ingredients, instructions)
+    const recipe_id = await RecipesService(req.db).create({
+        author_id: req.user.id,
+        ...req.body
+    })
     
-    res.sendStatus(httpStatus.OK)
+    res.status(httpStatus.OK).json({recipe_id})
 })
 
 export const deleteRecipe = () => catchAsync(async (req, res) => {

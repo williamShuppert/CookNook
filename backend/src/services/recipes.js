@@ -12,17 +12,23 @@ export const RecipesService = (db) => ({
      * @param {string} description 
      * @param {string[]} ingredients 
      * @param {string[]} instructions 
+     * @param {string} prep_time
+     * @param {string} cook_time
+     * @returns {string} recipe uuid
      */
-    create: async (authorId, name, description, ingredients, instructions) => {
+    create: async ({author_id, name, description, ingredients, instructions, prep_time, cook_time}) => {
         const id = UUID()
-        await db.query('INSERT INTO recipes (recipe_id, author_id, name, description, ingredients, instructions) VALUES ($1,$2,$3,$4,$5,$6)', [
+        await db.query('INSERT INTO recipes (recipe_id, author_id, name, description, ingredients, instructions, prep_time, cook_time) VALUES ($1,$2,$3,$4,$5,$6,$7,$8)', [
             id,
-            authorId,
+            author_id,
             name,
             description,
             ingredients,
-            instructions
+            instructions,
+            prep_time,
+            cook_time
         ])
+        return id
     },
 
     /**
