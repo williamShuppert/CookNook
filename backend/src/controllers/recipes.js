@@ -17,3 +17,11 @@ export const deleteRecipe = () => catchAsync(async (req, res) => {
 export const updateRecipe = () => catchAsync(async (req, res) => {
     res.sendStatus(httpStatus.NOT_IMPLEMENTED)
 })
+
+export const recipeSearch = () => catchAsync(async (req, res) => {
+    let {name, author, tag: tags, tagMatch, order, page, limit} = req.query
+
+    const recipes = await RecipesService(req.db).search(name, author, tags, tagMatch, order, page, limit)
+
+    res.status(httpStatus.OK).json(recipes)
+})
