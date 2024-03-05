@@ -8,9 +8,6 @@ export const createRecipeValidation = Joi.object().keys({
         instructions: Joi.array().items(Joi.string()).required(),
         prep_time: Joi.string().required(),
         cook_time: Joi.string().required(),
-    }),
-    query: Joi.object().keys({
-        id: Joi.string().guid({ version: 'uuidv4' })
     })
 })
 
@@ -19,16 +16,18 @@ export const updateRecipeValidation = Joi.object().keys({
         name: Joi.string().max(100),
         description: Joi.string(),
         ingredients: Joi.array().items(Joi.string()),
-        instructions: Joi.array().items(Joi.string()).required()
+        instructions: Joi.array().items(Joi.string()),
+        prep_time: Joi.string(),
+        cook_time: Joi.string()
     }),
-    query: Joi.object().keys({
+    params: Joi.object().keys({
         id: Joi.string().guid({ version: 'uuidv4' })
     })
 })
 
 export const deleteRecipeValidation = Joi.object().keys({
-    param: Joi.object().keys({
-        id: Joi.string().guid({ version: 'uuidv4' }).required()
+    params: Joi.object().keys({
+        id: Joi.string().guid({ version: 'uuidv4' })
     })
 })
 
