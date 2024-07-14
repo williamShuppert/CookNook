@@ -1,6 +1,5 @@
 import './src/config/env.js'
-
-console.log(process.env.DB_HOST)
+import fs from 'fs'
 
 const NODE_ENV = process.env.NODE_ENV
 const config = {}
@@ -13,6 +12,9 @@ config[NODE_ENV] = {
   "dialect": "postgres",
   "dialectOptions": {
     ssl: process.env.NODE_ENV == 'prod'
+    // ssl: {
+    //   ca: fs.readFileSync('../certificate/supabase.crt')
+    // }
   }
 }
 
