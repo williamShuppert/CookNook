@@ -1,5 +1,7 @@
 import pg from 'pg'
-const { Pool } = pg
+const { Pool, types } = pg
+
+// types.setTypeParser(1186, value => value) // keep intervals unformatted
 
 export const pool = process.env.DB_URL
     ? new Pool({ connectionString: process.env.DB_URL })
