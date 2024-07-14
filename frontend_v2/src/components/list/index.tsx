@@ -1,11 +1,11 @@
-import { ReactElement, KeyboardEvent, useEffect, useRef } from "react"
+import { ReactNode, KeyboardEvent, useEffect, useRef } from "react"
 import plusIcon from '/../frontend/src/assets/icons/plus-solid.svg'
 
 interface ListProps<T> {
     data: T[]
     setData: React.Dispatch<React.SetStateAction<T[]>>
     createEmpty: () => T
-    creator: (data: T, index: number, onBlur: (value: T, index: number) => void) => ReactElement
+    creator: (data: T, index: number, onBlur: (value: T, index: number) => void) => ReactNode
     isEmpty: (data: T) => boolean
     query?: string
 }
