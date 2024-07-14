@@ -12,7 +12,7 @@ interface IncrementorProps {
 }
 
 const Incrementor = ({ value, min, max, onChange }: IncrementorProps) => {
-  const [text, setText] = useState("")
+  const [text, setText] = useState(value.toString())
   const [width, setWidth] = useState(0)
   const span = useRef<HTMLSpanElement>(null)
 
