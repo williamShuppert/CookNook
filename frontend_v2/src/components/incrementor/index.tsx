@@ -27,7 +27,6 @@ const Incrementor = ({ value, min, max, onChange }: IncrementorProps) => {
     const newValue = clamp(isNaN(num) ? 0 : num, min, max)
 
     onChange(newValue)
-    console.log(newValue)
     return newValue
   }
 
