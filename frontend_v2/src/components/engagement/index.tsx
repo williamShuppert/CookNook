@@ -7,10 +7,10 @@ interface EngagementProps {
 
 const Engagement = ({icon, value}: EngagementProps) => {
   return (
-    <div className="engagement">
+    <button className="engagement">
         <img className="icon" src={icon} />
         <span>{value}</span>
-    </div>
+    </button>
   )
 }
 

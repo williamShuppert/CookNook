@@ -14,6 +14,7 @@
         flex: 1;
         resize: none;
         overflow: hidden;
+        cursor: pointer;
 
         &.completed {
             text-decoration: line-through;
