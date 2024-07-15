@@ -1,0 +1,26 @@
+.direction {
+    display: flex;
+    align-items: flex-start;
+
+    .step-number {
+        margin-right: 5px;
+        background-color: gray;
+        display: grid;
+        place-content: center;
+        flex: 0 0 auto;
+    }
+
+    .content {
+        flex: 1;
+        resize: none;
+        overflow: hidden;
+
+        &.completed {
+            text-decoration: line-through;
+        }
+    }
+
+    &.completed {
+        opacity: .5;
+    }
+}

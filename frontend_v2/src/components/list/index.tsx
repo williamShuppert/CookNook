@@ -1,7 +1,9 @@
 import { ReactNode, KeyboardEvent, useEffect, useRef } from "react"
 import plusIcon from '/../frontend/src/assets/icons/plus-solid.svg'
+import './style.scss'
 
 interface ListProps<T> {
+    editMode: boolean
     data: T[]
     setData: React.Dispatch<React.SetStateAction<T[]>>
     createEmpty: () => T
@@ -10,7 +12,7 @@ interface ListProps<T> {
     query?: string
 }
 
-const List = <T,>({ data, setData, createEmpty, creator, isEmpty, query = "input" }: ListProps<T>) => {
+const List = <T,>({ editMode, data, setData, createEmpty, creator, isEmpty, query = "input" }: ListProps<T>) => {
     const parent = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
@@ -58,12 +60,16 @@ const List = <T,>({ data, setData, createEmpty, creator, isEmpty, query = "input
     }
 
     return (
-        <div ref={parent} onKeyDown={handleKeyDown}>
-            {data.map((v, i) => creator(v, i, handleBlur))}
+        <div className="list" ref={parent} onKeyDown={handleKeyDown}>
 
-            <button className="circle" onClick={handleAddButton}>
+            {editMode
+                ? data.map((v, i) => creator(v, i, handleBlur))
+                : data.filter(t => !isEmpty(t)).map((v, i) => creator(v, i, handleBlur))}
+
+
+            { editMode && <button className="circle" onClick={handleAddButton}>
                 <img className="icon" src={plusIcon} />
-            </button>
+            </button>}
         </div>
     )
 }

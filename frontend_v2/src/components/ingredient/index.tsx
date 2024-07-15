@@ -1,13 +1,14 @@
-import { KeyboardEvent } from "react"
+import { ChangeEventHandler, FocusEventHandler, KeyboardEvent } from "react"
 
 interface IngredientProps {
+    editMode: boolean
     value: string
-    onChange: (newValue: string) => void
+    onChange: ChangeEventHandler<HTMLInputElement>
     onEnterKeyDown?: (event: KeyboardEvent<HTMLInputElement>) => void
-    onBlur?: () => void
+    onBlur?: FocusEventHandler<HTMLInputElement>
 }
 
-const Ingredient = ({ value, onChange, onEnterKeyDown, onBlur }: IngredientProps) => {
+const Ingredient = ({ editMode, value, onChange, onEnterKeyDown, onBlur }: IngredientProps) => {
 
     const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
         if (e.nativeEvent.key === "Enter")
@@ -16,13 +17,18 @@ const Ingredient = ({ value, onChange, onEnterKeyDown, onBlur }: IngredientProps
 
     return (
         <div>
-            <input
-                value={value}
-                onChange={e => onChange(e.target.value)}
-                onKeyDown={handleKeyDown}
-                onBlur={onBlur}
-                placeholder="Enter ingredient here!"
-            />
+            {editMode ? (
+                <input
+                    value={value}
+                    onChange={onChange}
+                    onKeyDown={handleKeyDown}
+                    onBlur={onBlur}
+                    placeholder="Enter ingredient here!"
+                />
+            ) : (
+                <div className="input">{value}</div>
+            )}
+
         </div>
     )
 }

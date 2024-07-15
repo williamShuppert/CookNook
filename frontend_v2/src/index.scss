@@ -1,5 +1,6 @@
 * {
   box-sizing: border-box;
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 }
 
 :root {
@@ -46,4 +47,12 @@ button.circle {
     width: 100%;
     height: 100%;
   }
+}
+
+input,
+textarea,
+.input {
+  font-size: 16px;
+  padding: 2px;
+  white-space: pre-wrap;
 }
