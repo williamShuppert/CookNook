@@ -21,7 +21,6 @@ const Incrementor = ({ value, default: defaultVal, min, max, onChange }: Increme
 
     input.current.style.width = "1px"
     input.current.style.width = input.current.scrollWidth + 4 + "px"
-    console.log(input.current.scrollWidth)
   }, [text])
 
   const setValue = (num: number | string): number => {
