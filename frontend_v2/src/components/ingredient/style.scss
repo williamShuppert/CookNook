@@ -1,0 +1,27 @@
+// Trash icon
+.ingredient-input {
+    position: relative;
+
+    input {
+        width: 100%;
+
+        &:focus + button {
+            opacity: 1;
+            pointer-events: all;
+        }
+    }
+
+    button {
+        opacity: 0;
+        pointer-events: none;
+        position: absolute;
+        right: 0;
+        top: 0; bottom: 0;
+        margin: 2px;
+
+        &:focus {
+            opacity: 1;
+            pointer-events: all;
+        }
+    }
+}

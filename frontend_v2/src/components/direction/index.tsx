@@ -1,4 +1,5 @@
 import { ChangeEventHandler, FocusEventHandler, useEffect, useRef, useState } from 'react'
+import trashIcon from '/../frontend/src/assets/icons/trash-solid.svg'
 import './style.scss'
 
 interface DirectionProps {
@@ -7,9 +8,10 @@ interface DirectionProps {
     onChange: ChangeEventHandler<HTMLTextAreaElement>
     onBlur: FocusEventHandler<HTMLTextAreaElement>
     editMode: boolean
+    onDelete?: () => void
 }
 
-const Direction = ({ step, value, onChange, onBlur, editMode }: DirectionProps) => {
+const Direction = ({ step, value, onChange, onBlur, editMode, onDelete }: DirectionProps) => {
     const [completed, setCompleted] = useState(false)
     const textarea = useRef<HTMLTextAreaElement>(null)
 
@@ -29,14 +31,17 @@ const Direction = ({ step, value, onChange, onBlur, editMode }: DirectionProps) 
             <button className='step-number circle' disabled={editMode} onClick={() => setCompleted(prev => !prev)}>{step}</button>
             
             {editMode ? (
-                <textarea
-                    className="content"
-                    ref={textarea}
-                    value={value}
-                    onChange={onChange}
-                    onBlur={onBlur}
-                    placeholder='Enter directions here!'
-                />
+                <div className="direction-input">
+                    <textarea
+                        className="content"
+                        ref={textarea}
+                        value={value}
+                        onChange={onChange}
+                        onBlur={onBlur}
+                        placeholder='Enter directions here!'
+                    />
+                    <button onClick={onDelete}><img className="icon" src={trashIcon} /></button>
+                </div>
             ) : (
                 <div className={`content input ${completed&&"completed"}`} onClick={() => setCompleted(prev => !prev)}>{value}</div>
             )}

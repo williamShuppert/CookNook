@@ -21,7 +21,7 @@ const RecipeView = () => {
   } as Recipe)
 
   const [servings, setServings] = useState(recipe.servings)
-  const [editMode, setEditMode] = useState(true)
+  const [editMode, setEditMode] = useState(false)
 
   const setIngredients = (action: SetStateAction<string[]>) => {
     setRecipe(prev => ({
@@ -73,8 +73,9 @@ const RecipeView = () => {
           isEmpty={data => data == ""}
           creator={(ingredient, index, onBlur) => <Ingredient
             key={index} value={ingredient} editMode={editMode}
-            onChange={e => setIngredients(recipe.ingredients.map((v,i) => i == index ? e.target.value : v))}
+            onChange={e => setIngredients(prev => prev.map((v,i) => i == index ? e.target.value : v))}
             onBlur={e => onBlur(index, e)} 
+            onDelete={() => setIngredients(prev => prev.filter((_,i) => i != index))}
           />}
         />
       </Section>
@@ -88,8 +89,9 @@ const RecipeView = () => {
           isEmpty={data => data == ""}
           query="textarea"
           creator={(direction, index, onBlur) => <Direction key={index} step={index+1} value={direction} editMode={editMode}
-            onChange={e => setDirections(recipe.directions.map((v,i) => i == index ? e.target.value : v))}
+            onChange={e => setDirections(prev => prev.map((v,i) => i == index ? e.target.value : v))}
             onBlur={e => onBlur(index, e)}
+            onDelete={() => setDirections(prev => prev.filter((_,i) => i != index))}
           />}
         />
       </Section>
