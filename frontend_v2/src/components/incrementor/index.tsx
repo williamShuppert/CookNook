@@ -6,18 +6,22 @@ import './style.scss'
 
 interface IncrementorProps {
   value: number
+  default?: number
   min?: number
   max?: number
   onChange: (newValue: number) => void
 }
 
-const Incrementor = ({ value, min, max, onChange }: IncrementorProps) => {
+const Incrementor = ({ value, default: defaultVal, min, max, onChange }: IncrementorProps) => {
   const [text, setText] = useState(value.toString())
-  const [width, setWidth] = useState(0)
-  const span = useRef<HTMLSpanElement>(null)
+  const input = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
-    setWidth(span.current!.offsetWidth + 3)
+    if (!input.current) return
+
+    input.current.style.width = "1px"
+    input.current.style.width = input.current.scrollWidth + 4 + "px"
+    console.log(input.current.scrollWidth)
   }, [text])
 
   const setValue = (num: number | string): number => {
@@ -68,8 +72,7 @@ const Incrementor = ({ value, min, max, onChange }: IncrementorProps) => {
         <img className="icon" src={minusIcon} />
       </button>
 
-      <span ref={span} >{text == "" ? clamp(0, min, max) : text}</span>
-      <input type='text' value={text} onChange={handleInputChange} onBlur={handleBlur} placeholder={clamp(0, min, max).toString()} style={{ width }} />
+      <input ref={input} type='text' value={text} onChange={handleInputChange} onBlur={handleBlur} placeholder={(defaultVal || clamp(0, min, max)).toString()} />
       
       <button className="circle" onClick={_ => handleIncrement(1)}>
         <img className="icon" src={plusIcon} />

@@ -61,7 +61,7 @@ const RecipeView = () => {
       <button onClick={() => setEditMode(prev => !prev)}>{editMode ? "View" : "Edit"}</button>
 
       <Section name="servings">
-        <Incrementor value={servings} onChange={setServings} min={1} />
+        <Incrementor value={servings} onChange={setServings} min={0} default={1} />
       </Section>
 
       <Section name="Ingredients">
