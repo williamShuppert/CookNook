@@ -40,7 +40,12 @@
             }
         }
 
+        .engagements-container {
+            grid-area: 2 / 2 / span 1 / span 1;
+        }
+
         #recipe-image {
+            grid-area: 1 / 1 / span 4 / span 1;
             padding: 0;
             // max-width: 500px;
         }

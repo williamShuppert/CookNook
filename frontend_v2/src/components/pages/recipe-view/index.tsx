@@ -43,56 +43,56 @@ const RecipeView = () => {
 
   return (
     <div id="recipe-view">
-        <header>
-            <h1 className="recipe-name">{recipe.name}</h1>
-            <h2 className="author-name">{recipe.author.name}</h2>
-        </header>
+      <header>
+          <h1 className="recipe-name">{recipe.name}</h1>
+          <h2 className="author-name">{recipe.author.name}</h2>
+      </header>
 
-        <div id="recipe-image">
-          <div className="sqr-image-container">
-            <img src={recipeImage} />
-          </div>
+      <div id="recipe-image">
+        <div className="sqr-image-container">
+          <img src={recipeImage} />
         </div>
+      </div>
 
-        <div className="engagements-container">
-          <Engagements />
-        </div>
+      <div className="engagements-container">
+        <Engagements />
+      </div>
 
-        <button onClick={() => setEditMode(prev => !prev)}>{editMode ? "View" : "Edit"}</button>
+      <button onClick={() => setEditMode(prev => !prev)}>{editMode ? "View" : "Edit"}</button>
 
-        <Section name="servings">
-          <Incrementor value={servings} onChange={setServings} min={1} />
-        </Section>
+      <Section name="servings">
+        <Incrementor value={servings} onChange={setServings} min={1} />
+      </Section>
 
-        <Section name="Ingredients">
-          <List<string>
-            editMode={editMode}
-            data={recipe.ingredients}
-            setData={setIngredients}
-            createEmpty={() => ""}
-            isEmpty={data => data == ""}
-            creator={(ingredient, index, onBlur) => <Ingredient
-              key={index} value={ingredient} editMode={editMode}
-              onChange={e => setIngredients(recipe.ingredients.map((v,i) => i == index ? e.target.value : v))}
-              onBlur={() => onBlur(ingredient, index)} 
-            />}
-          />
-        </Section>
+      <Section name="Ingredients">
+        <List<string>
+          editMode={editMode}
+          data={recipe.ingredients}
+          setData={setIngredients}
+          createEmpty={() => ""}
+          isEmpty={data => data == ""}
+          creator={(ingredient, index, onBlur) => <Ingredient
+            key={index} value={ingredient} editMode={editMode}
+            onChange={e => setIngredients(recipe.ingredients.map((v,i) => i == index ? e.target.value : v))}
+            onBlur={() => onBlur(ingredient, index)} 
+          />}
+        />
+      </Section>
 
-        <Section name="Directions">
-          <List<string>
-            editMode={editMode}
-            data={recipe.directions}
-            setData={setDirections}
-            createEmpty={() => ""}
-            isEmpty={data => data == ""}
-            query="textarea"
-            creator={(direction, index, onBlur) => <Direction key={index} step={index+1} value={direction} editMode={editMode}
-              onChange={e => setDirections(recipe.directions.map((v,i) => i == index ? e.target.value : v))}
-              onBlur={() => onBlur(direction, index)}
-            />}
-          />
-        </Section>
+      <Section name="Directions">
+        <List<string>
+          editMode={editMode}
+          data={recipe.directions}
+          setData={setDirections}
+          createEmpty={() => ""}
+          isEmpty={data => data == ""}
+          query="textarea"
+          creator={(direction, index, onBlur) => <Direction key={index} step={index+1} value={direction} editMode={editMode}
+            onChange={e => setDirections(recipe.directions.map((v,i) => i == index ? e.target.value : v))}
+            onBlur={() => onBlur(direction, index)}
+          />}
+        />
+      </Section>
 
     </div>
   )
