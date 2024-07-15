@@ -74,7 +74,7 @@ const RecipeView = () => {
           creator={(ingredient, index, onBlur) => <Ingredient
             key={index} value={ingredient} editMode={editMode}
             onChange={e => setIngredients(recipe.ingredients.map((v,i) => i == index ? e.target.value : v))}
-            onBlur={() => onBlur(ingredient, index)} 
+            onBlur={e => onBlur(index, e)} 
           />}
         />
       </Section>
@@ -89,7 +89,7 @@ const RecipeView = () => {
           query="textarea"
           creator={(direction, index, onBlur) => <Direction key={index} step={index+1} value={direction} editMode={editMode}
             onChange={e => setDirections(recipe.directions.map((v,i) => i == index ? e.target.value : v))}
-            onBlur={() => onBlur(direction, index)}
+            onBlur={e => onBlur(index, e)}
           />}
         />
       </Section>

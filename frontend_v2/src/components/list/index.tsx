@@ -1,23 +1,26 @@
-import { ReactNode, KeyboardEvent, useEffect, useRef } from "react"
+import { ReactNode, FocusEvent, KeyboardEvent, useEffect, useRef } from "react"
 import plusIcon from '/../frontend/src/assets/icons/plus-solid.svg'
 import './style.scss'
+import { usePrevious } from "../../hooks/use-previous"
 
 interface ListProps<T> {
     editMode: boolean
     data: T[]
     setData: React.Dispatch<React.SetStateAction<T[]>>
     createEmpty: () => T
-    creator: (data: T, index: number, onBlur: (value: T, index: number) => void) => ReactNode
+    creator: (data: T, index: number, onBlur: (index: number, e: FocusEvent) => void) => ReactNode
     isEmpty: (data: T) => boolean
     query?: string
 }
 
 const List = <T,>({ editMode, data, setData, createEmpty, creator, isEmpty, query = "input" }: ListProps<T>) => {
     const parent = useRef<HTMLDivElement>(null)
+    const prevLength = usePrevious(data.length)
 
     useEffect(() => {
-        // TODO: this should only be done when adding not removing
-        focusField(-1) // set focus to newly created field
+        // focus on last field if list gets longer
+        if (data.length > prevLength)
+            focusField(-1)
     }, [data.length])
 
     const focusField = (index: number) => {
@@ -27,11 +30,16 @@ const List = <T,>({ editMode, data, setData, createEmpty, creator, isEmpty, quer
         fields[index]?.focus()
     }
 
-    const handleBlur = (value: T, index: number) => {
-        if (!isEmpty(value)) return // only remove if field is empty
+    const handleBlur = (index: number, e: FocusEvent) => {
+        if (!isEmpty(data[index])) return // only remove if field is empty
         if (index == data.length - 1) return // don't allow removal of last remaining field
-        
+
         setData(prev => prev.filter((_, i) => index != i)) // remove current
+        
+        // This fixes the focus. After removing a field the focus is off by one if it came after the removed field
+        if (!e.relatedTarget) return // ensure there is a new focus
+        const indexOfRelatedTarget = Array.from(parent.current?.querySelectorAll(query)||[]).indexOf(e.relatedTarget)
+        if (indexOfRelatedTarget > index) focusField(indexOfRelatedTarget - 1)
     }
 
     const handleKeyDown = (e: KeyboardEvent<HTMLElement>) => {
