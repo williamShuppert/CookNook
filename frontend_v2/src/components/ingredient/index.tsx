@@ -1,7 +1,6 @@
 import { ChangeEventHandler, FocusEventHandler, KeyboardEvent, useEffect, useState } from "react"
 import trashIcon from '/../frontend/src/assets/icons/trash-solid.svg'
-import { boldMeasurements } from "../../util/ingredients"
-import pluralize from "pluralize"
+import { parseMeasurements, MeasurementToken } from "../../util/ingredients"
 import './style.scss'
 
 interface IngredientProps {
@@ -15,11 +14,11 @@ interface IngredientProps {
 }
 
 const Ingredient = ({ editMode, value, onChange, onEnterKeyDown, onBlur, onDelete, multiplier = 1 }: IngredientProps) => {
-    const [ingredientTokens, setTokens] = useState(boldMeasurements(value))
+    const [ingredientTokens, setTokens] = useState<MeasurementToken[]>()
 
     useEffect(() => {
         // TODO: this only needs to update after editing is completed
-        setTokens(boldMeasurements(value))
+        setTokens(parseMeasurements(value))
     }, [value])
 
     const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -42,9 +41,7 @@ const Ingredient = ({ editMode, value, onChange, onEnterKeyDown, onBlur, onDelet
                 </div>
             ) : (
                 <div className="input">
-                    {ingredientTokens.map((v,i) => v.bold ? 
-                        <strong key={i}>{v.number! * multiplier} {pluralize(v.unit!, v.number! * multiplier)}</strong> : v.value
-                    )}
+                    {ingredientTokens?.map((v, i) => v(multiplier, i))}
                 </div>
             )}
 

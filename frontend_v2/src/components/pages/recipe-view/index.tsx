@@ -93,7 +93,10 @@ const RecipeView = () => {
           createEmpty={() => ""}
           isEmpty={data => data == ""}
           query="textarea"
-          creator={(direction, index, onBlur) => <Direction key={index} step={index+1} value={direction} editMode={editMode}
+          creator={(direction, index, onBlur) => <Direction 
+            key={index} step={index+1} 
+            multiplier={servings/recipe.servings}
+            value={direction} editMode={editMode}
             onChange={e => setDirections(prev => prev.map((v,i) => i == index ? e.target.value : v))}
             onBlur={e => onBlur(index, e)}
             onDelete={() => setDirections(prev => prev.filter((_,i) => i != index))}
