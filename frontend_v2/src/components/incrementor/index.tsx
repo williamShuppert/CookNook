@@ -23,6 +23,11 @@ const Incrementor = ({ value, default: defaultVal, min, max, onChange }: Increme
     input.current.style.width = input.current.scrollWidth + 4 + "px"
   }, [text])
 
+  useEffect(() => {
+    // need this bc rerenders don't happen if props change, only when state changes
+    setText(value.toString())
+  }, [value])
+
   const setValue = (num: number | string): number => {
     if (typeof(num) === 'string')
       num = Number.parseFloat(num)
