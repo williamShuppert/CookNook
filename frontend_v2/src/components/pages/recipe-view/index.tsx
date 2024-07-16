@@ -73,6 +73,7 @@ const RecipeView = () => {
           isEmpty={data => data == ""}
           creator={(ingredient, index, onBlur) => <Ingredient
             key={index} value={ingredient} editMode={editMode}
+            multiplier={servings/recipe.servings}
             onChange={e => setIngredients(prev => prev.map((v,i) => i == index ? e.target.value : v))}
             onBlur={e => onBlur(index, e)} 
             onDelete={() => setIngredients(prev => prev.filter((_,i) => i != index))}
