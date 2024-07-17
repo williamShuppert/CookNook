@@ -2,12 +2,13 @@ export interface Recipe {
     id: string
     name: string
     servings: number
+    rating: number
+    bookmarks: number
+    imageSrc: string
     author: {
         id: string
         name: string
     }
-    likes: number
-    bookmarks: number
     ingredients: string[]
     directions: string[]
 }

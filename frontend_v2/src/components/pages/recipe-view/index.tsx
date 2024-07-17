@@ -1,45 +1,63 @@
-import { SetStateAction, useState } from "react"
+import { SetStateAction, useEffect, useState } from "react"
 import Engagements from "../../engagements"
 import Incrementor from "../../incrementor"
 import Section from "../../section-title"
-import recipeImage from '/../frontend/public/Cheesy-Spinach-Panini.jpeg'
 import { Recipe } from "../../../interfaces/recipe"
 import List from "../../list"
 import Ingredient from "../../ingredient"
 import './style.scss'
 import Direction from "../../direction"
+import { putRecipe, selectRecipe } from "../../../redux/recipesSlice"
+import { useAppSelector } from "../../../redux/hooks"
+import { useParams } from "react-router-dom"
+import { useDispatch } from "react-redux"
 
 const RecipeView = () => {
-  const [recipe, setRecipe] = useState({
-    name: 'Cheesy Spinach Panini',
-    author: {
-      name: 'Hello Fresh'
-    },
-    servings: 2,
-    ingredients: ["1 tsp dried oregano", "1 clove garlic", "1 lemon", "1 tomato", "4 tbsp mayonnaise", "2 tsp Dijon mustard", "2.5 ounce spinach", "2 tbsp cream cheese", "4 slice sourdough bread", "1/2 cup feta cheese", "1/2 cup mozzarella", "2 tsp cooking oil", "1/4 tsp sugar", "2 tbsp butter", "salt and pepper"],
-    directions: ["Peel and mince or grate garlic. Quarter lemon. Thinly slice tomato into rounds and season with salt and pepper.", "In a small bowl, combine mayonnaise, mustard, 1/4 tsp sugar, juice from one lemon wedge, and a pinch of garlic. Season with salt and pepper to taste.", "Heat a drizzle of oil in a large pan over medium-high heat. Add spinach and remaining garlic; season with salt and pepper. Cook, stirring, until spinach is wilted, 2-3 minutes. Transfer spinach to a second small bowl; stir in cream cheese until combined. Turn off heat. Wipe out pan.", "Spread half the sourdough slices with creamy spinach; top with even layers of feta, mozzarella, and tomato. Spread remaining sourdough slices with Dijonnaise (save some for serving). Close sandwiches.", "Melt 1 tbsp butter in pan used for spinach over medium heat. Once hot, add sandwiches and push around in pan until melted butter has absorbed. Cook until bread is golden brown and cheese is slightly melted, 5-6 minutes. Add another 1 tbsp butter to pan, then flip sandwiches and push around again until melted butter has absorbed. Cook until bread is golden brown and cheese is fully melted, 4-6 minutes."]
-  } as Recipe)
+  const dispatch = useDispatch()
+  const { id: paramId } = useParams()
+  const recipe = useAppSelector(selectRecipe(paramId!))
 
-  const [servings, setServings] = useState(recipe.servings)
+  const [servings, setServings] = useState(recipe?.servings ?? 0)
   const [editMode, setEditMode] = useState(false)
 
+  useEffect(() => {
+    if (recipe) return
+
+    // TODO: attempt to fetch recipe and add to redux store otherwise show 404 recipe page
+    dispatch(putRecipe({ id: paramId!, name: 'Not Found', servings: 1, rating: 4, bookmarks: 1, imageSrc: "", author: { id: '-1', name: 'Author'}, ingredients: [], directions: [] }))
+  }, [])
+
   const setIngredients = (action: SetStateAction<string[]>) => {
-    setRecipe(prev => ({
-      ...prev,
+    if (!recipe) return
+    dispatch(putRecipe({
+      ...recipe,
       ingredients: typeof action === "function"
-        ? action(prev.ingredients)
+        ? action(recipe.ingredients)
         : action
-    }))
+    } as Recipe))
   }
 
   const setDirections = (action: SetStateAction<string[]>) => {
-    setRecipe(prev => ({
-      ...prev,
+    if (!recipe) return
+    dispatch(putRecipe({
+      ...recipe,
       directions: typeof action === "function"
-        ? action(prev.directions)
+        ? action(recipe.directions)
         : action
-    }))
+    } as Recipe))
   }
+
+  const setRecipeServings = (action: SetStateAction<number>) => {
+    if (!recipe) return
+    dispatch(putRecipe({
+      ...recipe,
+      servings: typeof action === "function"
+        ? action(recipe.servings)
+        : action
+    } as Recipe))
+  }
+
+  if (!recipe) return <>Loading...</>
 
   return (
     <div id="recipe-view">
@@ -50,7 +68,7 @@ const RecipeView = () => {
 
       <div id="recipe-image">
         <div className="sqr-image-container">
-          <img src={recipeImage} />
+          <img src={recipe.imageSrc} />
         </div>
       </div>
 
@@ -63,7 +81,7 @@ const RecipeView = () => {
       <Section name="servings">
         <Incrementor
           value={editMode ? recipe.servings : servings}
-          onChange={editMode ? e => setRecipe(prev => ({...prev, servings: e})) : setServings}
+          onChange={editMode ? e => setRecipeServings(e) : setServings}
           min={0} default={1}
         />
       </Section>
