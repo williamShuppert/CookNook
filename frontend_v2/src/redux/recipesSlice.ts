@@ -44,3 +44,4 @@ export const { putRecipe, deleteRecipe } = recipesSlice.actions
 export default recipesSlice.reducer
 
 export const selectRecipe = (id: string) => (state: RootState) => state.recipes.data.find((r: Recipe) => r.id == id)
+export const selectRecipes = () => (state: RootState) => state.recipes.data
